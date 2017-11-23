@@ -20,5 +20,20 @@ The program gets the "FinalCSV" file , and filters it by 3 kind of sort by : Tim
 - The program will export a KML File after the filteration , and the file can be opened with Google Earth:globe_with_meridians: app. 
 
 
+**Instructions:**
+First, in the main of the project, we should pay attention to the path of the folder that we want to read csv from.
+
+Our program take that path and "see" csv files only.
+
+After that it create whole csv file which contains all of the information from all raw csv files in the folder that came from Wigle-Wifi application.
+
+The program runs clever methods to select the 10 "strong" networks in each period of time, after it, last sorted csv file will appear in the original folder of the project.
+
+Finnaly, the program ask the user to select sort method for networks before creating the last kml file with its time-line.
+
+We used some packages below, that help us create the timeline:
+o	JavaAPIforKml-2.2.0.jar
+o	Jaxb-api-2.2.jar
+o	Jaxb-impl-2.2.jar
 
 
