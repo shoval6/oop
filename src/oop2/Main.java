@@ -13,24 +13,40 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		
+		/*
+
 		String path = "C:\\Users\\shoval\\workspace\\oop2";
 		ArrayList<WiFi> fullCSV	= ReadCSV.Reading(path);
-		ArrayList<WiFi> Final = OrgenizedCSV.Orgenized(fullCSV);
+		ArrayList<WiFi> Final = OrganizedCSV.Orgenized(fullCSV);
 		Write.WriteCSV(Final ,"FinalCSV");
 		Choose.choose(Final);
 		File file = new File("C:\\Users\\shoval\\workspace\\oop2\\FilteredCSV.csv");
-		KMLWriter.CSV2KML(file);
+		KMLWriter.CSV2KML(file);		
+		
+		*/
 		
 		
+		//Algo1
 		
-			
+		Algorithm1 algo1 = new Algorithm1();
+		ArrayList<WiFi> comb = ReadOrgenizedCSV.Reading("comb.csv");
+		ArrayList<WiFi> Final1 = algo1.MacLocation(comb , 4);
+		Write.WriteCSV(Final1, "Algo1");
+
+
+		
+		//Algo2
+		
+		Algorithm2 algo2 = new Algorithm2();
+		ArrayList<WiFi> nogps = ReadOrgenizedCSV.Reading("nogps.csv");
+		ArrayList<WiFi> Final2 = algo2.UserLocation(comb, nogps, 4);
+		
+		Write.WriteCSV(Final1, "Algo2");
 		
 		
-		
-		
-		
-		
-		
+	
+	
+	
 	}
 
 }
