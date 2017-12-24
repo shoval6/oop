@@ -11,10 +11,20 @@ public class WiFiSub implements Comparable<WiFiSub> {
 
 	private String SSID;
 	private String MAC;
-	private int Frequncy , Signal;
+	private int Frequncy;
+	private int Signal;
+
 	
-	
-	
+	public int getFrequncy() {
+		return Frequncy;
+	}
+
+
+	public void setFrequncy(int frequncy) {
+		Frequncy = frequncy;
+	}
+
+
 	public WiFiSub(String SSID , String MAC , int Frequncy , int Signal){
 		
 		this.SSID = SSID;
@@ -24,6 +34,20 @@ public class WiFiSub implements Comparable<WiFiSub> {
 		
 	}
  
+	
+	public int getSignal() {
+		return Signal;
+	}
+
+
+	public void setSignal(int signal) {
+		Signal = signal;
+	}
+
+
+	public String getMAC(){
+		return this.MAC;
+	}
 	
 	public String getSSID(){
 		return this.SSID; 
@@ -37,6 +61,7 @@ public class WiFiSub implements Comparable<WiFiSub> {
 		this.Signal = Other.Signal;
 	
 	}
+	
 	@Override
 	public int compareTo(WiFiSub Other) {
 		if(this.Signal==Other.Signal)
