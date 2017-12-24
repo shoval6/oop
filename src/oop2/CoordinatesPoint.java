@@ -22,7 +22,7 @@ public class CoordinatesPoint {
 	}
 
 	public void setLat(double lat) {
-		Lat = lat;
+		this.Lat = lat;
 	}
 
 	public double getLon() {
@@ -30,9 +30,16 @@ public class CoordinatesPoint {
 	}
 
 	public void setLon(double lon) {
-		Lon = lon;
+		this.Lon = lon;
 	}
 
+	public double getAlt() {
+		return Alt;
+	}
+
+	public void setAlt(double Alt) {
+		this.Alt = Alt;
+	}
 	public String toString(){
 		return Lat + "," + Lon + "," + Alt;
 	}
