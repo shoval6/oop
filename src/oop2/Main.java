@@ -41,7 +41,7 @@ public class Main {
 		ArrayList<WiFi> nogps = ReadOrgenizedCSV.Reading("nogps.csv");
 		ArrayList<WiFi> Final2 = algo2.UserLocation(comb, nogps, 4);
 		
-		Write.WriteCSV(Final1, "Algo2");
+		Write.WriteCSV(Final2, "Algo2");
 		
 		
 	
