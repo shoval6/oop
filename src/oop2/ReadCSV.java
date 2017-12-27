@@ -50,13 +50,13 @@ public class ReadCSV {
 						String SSID = input[1];
 						String MAC = input[0];
 						int Frequncy = Integer.parseInt(input[4]);
-						int Signal = Integer.parseInt(input[5]);
+						int Signal = Integer.parseInt(input[5]); 
 						Lat = Double.parseDouble(input[6]);
 						Lon = Double.parseDouble(input[7]);
 						Alt = Double.parseDouble(input[8]);
 						point = new CoordinatesPoint(Lat, Lon, Alt);
 						sub = new WiFiSub(SSID, MAC, Frequncy, Signal);
-						list = new WiFi(time , ID , point);
+						list = new WiFi(time , ID , point , 0);
 						list.add(sub);
 						CSVList.add(list);
 					}
