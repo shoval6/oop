@@ -10,7 +10,7 @@ import IO_Class.ReadOrgenizedCSV;
 import IO_Class.Write;
 import WiFi.WiFi;
 import oop2.*;
-public class Connection {
+public class Link {
 
 	ArrayList<WiFi> DataBase = new ArrayList<WiFi>();
 	ArrayList<WiFi> temp = new ArrayList<WiFi>();

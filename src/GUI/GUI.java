@@ -75,7 +75,7 @@ public class GUI extends JFrame {
 	String path;
 	private JFrame frame;
 	private JTextArea textArea;
-    Connection L1 = new Connection();
+    Link L1 = new Link();
     private JTextField MINtxt;
     private JTextField MAXtxt;
 
@@ -157,7 +157,7 @@ public class GUI extends JFrame {
 		ClearButton.setEnabled(false);
 		ClearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				L1 = new Connection();
+				L1 = new Link();
 				JOptionPane.showMessageDialog(null, "Operation Done !!!");
 				ClearButton.setEnabled(false);
 				AddDirButton.setEnabled(true);
