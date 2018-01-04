@@ -7,14 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-
-import oop2.OrganizedCSV;
-import oop2.ReadCSV;
-import oop2.ReadOrgenizedCSV;
-import oop2.WiFi;
-import oop2.Write;
-
 import javax.swing.JButton;
 
 
@@ -63,9 +55,19 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JSlider;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+
+import IO_Class.OrganizedCSV;
+import IO_Class.ReadCSV;
+import IO_Class.ReadOrgenizedCSV;
+import IO_Class.Write;
+import WiFi.WiFi;
+
 import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUI extends JFrame {
 
@@ -74,6 +76,8 @@ public class GUI extends JFrame {
 	private JFrame frame;
 	private JTextArea textArea;
     Connection L1 = new Connection();
+    private JTextField MINtxt;
+    private JTextField MAXtxt;
 
 	/**
 	 * Launch the application.
@@ -107,12 +111,6 @@ public class GUI extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 
-	public void paint(Graphics g){
-
-		g.drawLine(0, 90, 400, 617);
-
-	}
-
 
 	private void initialize() {
 		frame = new JFrame();
@@ -134,6 +132,10 @@ public class GUI extends JFrame {
 		CSVButton.setBackground(new Color(211, 211, 211));
 		JButton SaveKMLButton = new JButton("Save ---> KML");
 		SaveKMLButton.setBackground(new Color(211, 211, 211));
+		JButton btnMin = new JButton("Enter MIN");
+		JButton btnMax = new JButton("Enter MAX");
+		JRadioButton TimeRadioButton = new JRadioButton("");
+		
 
 
 
@@ -221,6 +223,7 @@ public class GUI extends JFrame {
 		frame.getContentPane().add(CSVButton);
 
 		textArea = new JTextArea();
+		textArea.setEditable(false);
 		textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		textArea.setBounds(12, 320, 128, 117);
@@ -240,9 +243,110 @@ public class GUI extends JFrame {
 		SaveKMLButton.setBounds(12, 241, 128, 44);
 		frame.getContentPane().add(SaveKMLButton);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(233, 23, 97, 25);
-		frame.getContentPane().add(btnNewButton);
+		
+		// MINButton
+		
+		btnMin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		btnMin.setEnabled(false);
+		btnMin.setBounds(299, 112, 103, 25);
+		frame.getContentPane().add(btnMin);
+		
+		// MAXButton
+		
+		btnMax.setEnabled(false);
+		btnMax.setBounds(299, 146, 103, 25);
+		frame.getContentPane().add(btnMax);
+		
+		//TimeRadioButton
+		TimeRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(TimeRadioButton.isSelected()==true){
+					MINtxt.setEnabled(true);
+					MINtxt.setEditable(true);
+					MAXtxt.setEnabled(true);
+					MAXtxt.setEditable(true);
+					btnMax.setEnabled(true);
+					btnMin.setEnabled(true);
+				}
+				else if(TimeRadioButton.isSelected()==false){
+					MINtxt.setEnabled(false);
+					MINtxt.setEditable(false);
+					MAXtxt.setEnabled(false);
+					MAXtxt.setEditable(false);
+					btnMax.setEnabled(false);
+					btnMin.setEnabled(false);
+					
+					
+					
+				}
+			
+			
+			
+			}
+		});
+		TimeRadioButton.setBackground(new Color(255, 255, 255));
+		TimeRadioButton.setBounds(232, 80, 25, 25);
+		frame.getContentPane().add(TimeRadioButton);
+		
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(new Color(0, 0, 0));
+		separator.setForeground(new Color(255, 255, 255));
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(170, 13, 9, 424);
+		frame.getContentPane().add(separator);
+		
+		JLabel lblFilters = new JLabel("Filters");
+		lblFilters.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFilters.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblFilters.setBounds(277, 1, 91, 64);
+		frame.getContentPane().add(lblFilters);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBackground(new Color(0, 0, 0));
+		separator_1.setForeground(new Color(255, 255, 255));
+		separator_1.setBounds(178, 55, 297, 2);
+		frame.getContentPane().add(separator_1);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setOrientation(SwingConstants.VERTICAL);
+		separator_2.setForeground(Color.WHITE);
+		separator_2.setBackground(Color.BLACK);
+		separator_2.setBounds(481, 13, 9, 424);
+		frame.getContentPane().add(separator_2);
+		
+		JLabel lblTime = new JLabel("Time");
+		lblTime.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTime.setBounds(191, 69, 91, 44);
+		frame.getContentPane().add(lblTime);
+		
+		
+		MINtxt = new JTextField();
+		MINtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		MINtxt.setEnabled(false);
+		MINtxt.setText("hh:mm:ss");
+		MINtxt.setBounds(191, 112, 91, 25);
+		frame.getContentPane().add(MINtxt);
+		MINtxt.setColumns(10);
+		
+		
+		
+		
+		
+		
+		
+		MAXtxt = new JTextField();
+		MAXtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		MAXtxt.setEnabled(false);
+		MAXtxt.setText("hh:mm:ss");
+		MAXtxt.setBounds(191, 146, 91, 25);
+		frame.getContentPane().add(MAXtxt);
+		MAXtxt.setColumns(10);
 
 		
 		
