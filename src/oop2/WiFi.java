@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -16,7 +17,7 @@ import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class WiFi implements Comparable<WiFi> {
 
-	static int id = 0;
+	static int _id = 0;
 	private ArrayList<WiFiSub> arr;
 	private CoordinatesPoint point;
 	private Date time;
@@ -43,6 +44,44 @@ public class WiFi implements Comparable<WiFi> {
 	}
 	
 	
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof WiFi){
+			 WiFi ww = (WiFi) obj;
+			if(this.time==ww.getTime() && this.ID==ww.getID() && this.point.equals(ww.getPoint()))
+				for(int i=0; i<ww.getWiFiSub().size(); i++){
+						if(!(this.getWiFiSub().get(i).equals(ww.getWiFiSub().get(i))))
+						return false;
+				}
+				
+}
+		
+		return true;
+	}
+	
+	
+	@Override
+	 public int hashCode() {
+	 int res = 10;
+	 res += point.getLat();
+	 res += point.getLon();
+	 res += point.getAlt();
+	 res += this.ID.hashCode();
+	 res += this.time.hashCode();
+	 
+	 
+	 for(int i=0; i<arr.size(); i++){
+		 res += arr.get(i).getSignal();
+		 res += arr.get(i).getMAC().hashCode();
+		 res += arr.get(i).getSSID().hashCode();
+		 res += arr.get(i).getFrequncy();
+		 res += arr.get(i).getSignal();
+		 
+	 }
+	return res;
+	}
+	 
 	public double getWeight() {
 		return Weight;
 	}
@@ -115,7 +154,7 @@ public class WiFi implements Comparable<WiFi> {
 
 	public String toStringAlgo1() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String ans = id++ + "," +arr.get(0).getMAC()+ "," + arr.get(0).getSSID()+ "," + arr.get(0).getFrequncy()+ "," + arr.get(0).getSignal()+ "," + point + "," + format.format(time) + "," +"Approx. w-center algo1" ;
+		String ans = _id++ + "," +arr.get(0).getMAC()+ "," + arr.get(0).getSSID()+ "," + arr.get(0).getFrequncy()+ "," + arr.get(0).getSignal()+ "," + point + "," + format.format(time) + "," +"Approx. w-center algo1" ;
 		return ans;
 	}
 

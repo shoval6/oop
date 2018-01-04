@@ -13,18 +13,28 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		
-		/*
+		ReadOrgenizedCSV read = new ReadOrgenizedCSV();
 
-		String path = "C:\\Users\\shoval\\workspace\\oop2";
-		ArrayList<WiFi> fullCSV	= ReadCSV.Reading(path);
+		File path = new File("C:\\Users\\shoval\\workspace\\oop2\\FinalCSV1.csv");
+		ArrayList<WiFi> fullCSV	= read.Reading(path);
+		ArrayList<WiFi> fullCSV2 = read.Reading(path);
+		ArrayList<WiFi> full = read.Merge(fullCSV, fullCSV2);
+		System.out.println("dd");
+		
+		/*
+		  
+		
+		ArrayList<WiFi> fullCSV	= read.Reading(path);
 		ArrayList<WiFi> Final = OrganizedCSV.Orgenized(fullCSV);
 		Write.WriteCSV(Final ,"FinalCSV");
 		Choose.choose(Final);
 		File file = new File("C:\\Users\\shoval\\workspace\\oop2\\FilteredCSV.csv");
 		KMLWriter.CSV2KML(file);		
 		
-		*/
+		*?
 		
+		
+		/*
 		
 		//Algo1
 		
@@ -45,6 +55,7 @@ public class Main {
 		
 		
 	
+		*/
 	
 	
 	}

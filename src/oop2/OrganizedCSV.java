@@ -9,7 +9,7 @@ import java.util.Collections;
  */
 public class OrganizedCSV {
 
-	public static ArrayList<WiFi> Orgenized(ArrayList<WiFi> arr){
+	public ArrayList<WiFi> Orgenized(ArrayList<WiFi> arr){
 		
 		ArrayList<WiFi> CSVList = new ArrayList<WiFi>();
 		WiFi wifi = null;
@@ -48,8 +48,6 @@ public class OrganizedCSV {
 		
 	}
 	
-	
-	
-	
+
 }
 

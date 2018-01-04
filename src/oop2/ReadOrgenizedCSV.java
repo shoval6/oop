@@ -6,14 +6,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ReadOrgenizedCSV {
 
-	public static ArrayList<WiFi> Reading(String path) throws FileNotFoundException{
+	public ArrayList<WiFi> Reading(File file){
 		
 		ArrayList<WiFi> CSVList = new ArrayList<WiFi>();
-		Scanner temp = new Scanner(new File(path));
+		Scanner temp = null;
+		try {
+			temp = new Scanner(new File(file.getPath()));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		String[] input = {};
 		String ID , MAC , SSID , str;
 		Date time = null;
@@ -22,7 +29,7 @@ public class ReadOrgenizedCSV {
 		WiFiSub sub = null;
 		int Frequency , Signal;
 		double Lat , Lon , Alt;
-		
+		input = temp.nextLine().split(",");
 		while(temp.hasNext()){
 		input = temp.nextLine().split(",");
 		str = input[0];
@@ -55,7 +62,7 @@ public class ReadOrgenizedCSV {
 			if(!((6+(i*4))==input.length)){
 			SSID = input[6+(i*4)];
 			MAC = input[7+(i*4)];
-			Frequency = Integer.parseInt(input[8+(i*4)]);
+			Frequency = Integer.parseInt(input[8+(i*4)]);	
 			Signal = (int)Double.parseDouble(input[9+(i*4)]);
 			sub = new WiFiSub(SSID, MAC, Frequency , Signal);
 			wifi.add(sub);
@@ -76,7 +83,15 @@ public class ReadOrgenizedCSV {
 	}
 	
 	
-	
+	public ArrayList<WiFi> Merge(ArrayList<WiFi> List , ArrayList<WiFi> temp){
+		Set<WiFi> hset = new HashSet<WiFi>();
+		ArrayList<WiFi> arr = new ArrayList<WiFi>();
+		hset.addAll(List);
+		hset.addAll(temp);
+		arr.addAll(hset);
+		return arr;
+	}
+
 	
 	
 }

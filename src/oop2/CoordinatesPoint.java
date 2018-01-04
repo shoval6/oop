@@ -17,6 +17,12 @@ public class CoordinatesPoint {
 		
 	}
 	
+	public boolean equals(CoordinatesPoint point){
+		if(this.Lat == point.getLat() && this.Lon == point.getLon() && this.Alt == point.getAlt())
+			return true;
+		return false;
+	}
+	
 	public double getLat() {
 		return Lat;
 	}

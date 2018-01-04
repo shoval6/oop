@@ -26,7 +26,7 @@ public class Filter {
 	}
 	public boolean check(WiFi wifi){
 
-		WiFiSub array=wifi.getWiFiSub();
+		WiFiSub array=wifi.getWiFiSub().get(0);
 
 		switch(filter){
 		case "Time":{ String pattern = "dd/MM/yyyy hh:mm";

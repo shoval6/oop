@@ -62,6 +62,15 @@ public class WiFiSub implements Comparable<WiFiSub> {
 	
 	}
 	
+	public boolean equals(WiFiSub sub){
+		if(this.SSID.equals(sub.SSID) && this.MAC.equals(sub.MAC) && this.Frequncy==sub.Frequncy && this.Signal==sub.Signal)
+			return true;
+		return false;
+		
+		
+	}
+	
+	
 	@Override
 	public int compareTo(WiFiSub Other) {
 		if(this.Signal==Other.Signal)
