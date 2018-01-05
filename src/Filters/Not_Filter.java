@@ -10,10 +10,14 @@ import WiFi.WiFi;
  */
 
 public class Not_Filter implements Filter{
+	
 	private Filter _filter;
+	
+	
 	public Not_Filter(Filter f) {
 		_filter = f;
 	}
+	
 	public boolean test(WiFi wifi) {
 		return !(_filter.test(wifi));
 	}
