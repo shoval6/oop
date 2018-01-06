@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import Filters.Filter;
 import WiFi.WiFi;
 
 public class Write {
@@ -41,5 +42,19 @@ public class Write {
 
 	}
 	
+	public static void SortbyFilter(ArrayList<WiFi> WiFi , Filter filter , String name ){
+
+		for(int i=0; i<WiFi.size(); i++){
+			if(false == filter.test(WiFi.get(i))){
+				WiFi.remove(i);
+				i--;
+			}
+
+		}
+		
+		Write wr = new Write();
+		wr.WriteCSV(WiFi , name);
+
+	}
 	
 }

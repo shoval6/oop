@@ -1,90 +1,54 @@
 package GUI;
 
 import java.awt.EventQueue;
-
-
-import java.awt.Graphics;
+import Filters.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-
-
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Wrapper;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.Event.*;
-import java.awt.Component;
-
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import java.awt.Dimension;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Choice;
-import java.awt.ScrollPane;
-import java.awt.TextArea;
-import java.awt.event.TextListener;
-import java.awt.event.TextEvent;
-import java.awt.SystemColor;
 import java.awt.Font;
-import java.awt.List;
-import java.awt.Canvas;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.Panel;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JTable;
-import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Label;
-import javax.swing.JTextPane;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
-import javax.swing.JFormattedTextField;
-import javax.swing.JSlider;
-import javax.swing.JList;
 import javax.swing.border.LineBorder;
-
-import com.sun.org.apache.bcel.internal.generic.LNEG;
-
-import IO_Class.OrganizedCSV;
 import IO_Class.ReadCSV;
-import IO_Class.ReadOrgenizedCSV;
-import IO_Class.Write;
-import WiFi.WiFi;
-
-import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GUI extends JFrame {
 
 	File folder;
 	String path;
+	int numberOfCheckedButtons = 0;
 	private JFrame frame;
 	private JTextArea textArea;
     Link L1 = new Link();
-    private JTextField TimeMINtxt;
+	JRadioButton TimeRadioButton = new JRadioButton("");
+	JRadioButton DeviceRadioButton = new JRadioButton("");
+	JRadioButton LocationRadioButton = new JRadioButton("");
+	JButton SaveFilterButton = new JButton("Save Filter");
+	JButton StartFiltrationButton = new JButton("Start Filtration");
+	private JTextField TimeMINtxt;
     private JTextField TimeMAXtxt;
     private JTextField Devicetxt;
     private JTextField LatMINtxt;
     private JTextField LatMAXtxt;
-    private JTextField LonMintxt;
+    private JTextField LonMINtxt;
     private JTextField LonMAXtxt;
     private JTextField AltMINtxt;
     private JTextField AltMAXtxt;
@@ -121,12 +85,53 @@ public class GUI extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 
+	private void setEnabled(){
+		if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected())
+			LocationRadioButton.setEnabled(false);
+		if(TimeRadioButton.isSelected() && LocationRadioButton.isSelected())
+			DeviceRadioButton.setEnabled(false);
+		if(DeviceRadioButton.isSelected() && LocationRadioButton.isSelected())
+			TimeRadioButton.setEnabled(false);
+	}
+	
+	
+	private void setDisabled(){
+		if(TimeRadioButton.isSelected()){
+			DeviceRadioButton.setEnabled(true);
+			LocationRadioButton.setEnabled(true);
+			
+		}
+		if(DeviceRadioButton.isSelected()){
+			TimeRadioButton.setEnabled(true);
+			LocationRadioButton.setEnabled(true);
+			
+		}
+			
+		if(LocationRadioButton.isSelected())
+			TimeRadioButton.setEnabled(true);
+			DeviceRadioButton.setEnabled(true);
+	}
+	
+	private void CheckboxSelected(){
+		System.out.println(numberOfCheckedButtons);
+		if(numberOfCheckedButtons==2)
+			setEnabled();
+		
+		
+	}
 
+	private void CheckboxUnSelected(){
+		System.out.println(numberOfCheckedButtons);
+		if(numberOfCheckedButtons==1)
+			setDisabled();
+		
+	}
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(UIManager.getColor("Button.background"));
-		frame.setBounds(100, 100, 749, 622);
+		frame.setBounds(100, 100, 749, 723);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		//frame.paint(null);
@@ -142,24 +147,18 @@ public class GUI extends JFrame {
 		CSVButton.setBackground(new Color(211, 211, 211));
 		JButton SaveKMLButton = new JButton("Save ---> KML");
 		SaveKMLButton.setBackground(new Color(211, 211, 211));
-		JButton btnMin = new JButton("Enter MIN");
-		JButton btnMax = new JButton("Enter MAX");
-		JRadioButton TimeRadioButton = new JRadioButton("");
-		JRadioButton DeviceRadioButton = new JRadioButton("");
-		JCheckBox TimeAndCheckBox = new JCheckBox("AND");
-		JCheckBox TimeORCheckBox = new JCheckBox("OR");
+		JButton TimeMinEnterButton = new JButton("Enter MIN");
+		JButton TimeMaxEnterButton = new JButton("Enter MAX");
 		JCheckBox TimeNOTCheckBox = new JCheckBox("NOT");
 		JButton DeviceEnterButton = new JButton("Enter");
-		JCheckBox DeviceAndCheckBox = new JCheckBox("AND");
-		JCheckBox DeviceORCheckBox = new JCheckBox("OR");
 		JCheckBox DeviceNOTCheckBox = new JCheckBox("NOT");
-		JRadioButton LocationRadioButton = new JRadioButton("");
 		JButton LatEnterButton = new JButton("Enter");
 		JButton LonEnterButton = new JButton("Enter");
 		JButton AltEnterButton = new JButton("Enter");
-		JCheckBox LocationANDCheckBox = new JCheckBox("AND");
-		JCheckBox LocationORCheckBox = new JCheckBox("OR");
 		JCheckBox LocationNOTCheckBox = new JCheckBox("NOT");
+		JCheckBox AndCheckBox = new JCheckBox("AND");
+		JCheckBox ORCheckBox = new JCheckBox("OR");
+	
 
 
 
@@ -269,23 +268,27 @@ public class GUI extends JFrame {
 		frame.getContentPane().add(SaveKMLButton);
 		
 		
-		// TimeMINButton
+		// TimeMinEnterButton
 		
-		btnMin.addActionListener(new ActionListener() {
+		TimeMinEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String TimeGetMin = TimeMINtxt.getText();
 				
 			}
 		});
-		btnMin.setEnabled(false);
-		btnMin.setBounds(299, 112, 103, 25);
-		frame.getContentPane().add(btnMin);
+		TimeMinEnterButton.setEnabled(false);
+		TimeMinEnterButton.setBounds(343, 113, 103, 25);
+		frame.getContentPane().add(TimeMinEnterButton);
 		
-		// MAXButton
-		
-		btnMax.setEnabled(false);
-		btnMax.setBounds(299, 146, 103, 25);
-		frame.getContentPane().add(btnMax);
+		// TimeMaxEnterButton
+		TimeMaxEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String TimeGetMax = TimeMAXtxt.getText();
+			}
+		});
+		TimeMaxEnterButton.setEnabled(false);
+		TimeMaxEnterButton.setBounds(343, 147, 103, 25);
+		frame.getContentPane().add(TimeMaxEnterButton);
 		
 		//TimeRadioButton
 		TimeRadioButton.addActionListener(new ActionListener() {
@@ -295,30 +298,25 @@ public class GUI extends JFrame {
 					TimeMINtxt.setEditable(true);
 					TimeMAXtxt.setEnabled(true);
 					TimeMAXtxt.setEditable(true);
-					btnMax.setEnabled(true);
-					btnMin.setEnabled(true);
-					TimeAndCheckBox.setEnabled(true);
-					TimeORCheckBox.setEnabled(true);
 					TimeNOTCheckBox.setEnabled(true);
+					numberOfCheckedButtons++;
+					CheckboxSelected();
 				}
 				else if(TimeRadioButton.isSelected()==false){
 					TimeMINtxt.setEnabled(false);
 					TimeMINtxt.setEditable(false);
 					TimeMAXtxt.setEnabled(false);
 					TimeMAXtxt.setEditable(false);
-					btnMax.setEnabled(false);
-					btnMin.setEnabled(false);
+					TimeMaxEnterButton.setEnabled(false);
+					TimeMinEnterButton.setEnabled(false);
 					TimeMINtxt.setText("hh:mm:ss");
 					TimeMAXtxt.setText("hh:mm:ss");
-					TimeAndCheckBox.setEnabled(false);
-					TimeORCheckBox.setEnabled(false);
 					TimeNOTCheckBox.setEnabled(false);
-					TimeAndCheckBox.setSelected(false);
-					TimeORCheckBox.setSelected(false);
 					TimeNOTCheckBox.setSelected(false);
-					
+					numberOfCheckedButtons--;
+					CheckboxUnSelected();
+				
 				}
-			
 			
 			
 			}
@@ -334,21 +332,18 @@ public class GUI extends JFrame {
 				if(DeviceRadioButton.isSelected()==true){
 					Devicetxt.setEnabled(true);
 					Devicetxt.setEditable(true);
-					DeviceEnterButton.setEnabled(true);
-					DeviceAndCheckBox.setEnabled(true);
-					DeviceORCheckBox.setEnabled(true);
 					DeviceNOTCheckBox.setEnabled(true);
+					numberOfCheckedButtons++;
+					CheckboxSelected();
 				}
-					else if(TimeRadioButton.isSelected()==false){
+					else if(DeviceRadioButton.isSelected()==false){
 						Devicetxt.setEnabled(false);
 						Devicetxt.setEditable(false);
 						DeviceEnterButton.setEnabled(false);
-						DeviceAndCheckBox.setEnabled(false);
-						DeviceORCheckBox.setEnabled(false);
 						DeviceNOTCheckBox.setEnabled(false);
-						DeviceAndCheckBox.setSelected(false);
-						DeviceORCheckBox.setSelected(false);
 						DeviceNOTCheckBox.setSelected(false);
+						numberOfCheckedButtons--;
+						CheckboxUnSelected();
 					}
 					
 				}
@@ -358,40 +353,43 @@ public class GUI extends JFrame {
 		DeviceRadioButton.setBounds(244, 226, 25, 25);
 		frame.getContentPane().add(DeviceRadioButton);
 		
+		
+		
+		
 		//LocationRadioButton
 		LocationRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(LocationRadioButton.isSelected()==true){
 					LatMINtxt.setEnabled(true);
 					LatMAXtxt.setEnabled(true);
-					LonMintxt.setEnabled(true);
+					LonMINtxt.setEnabled(true);
 					LonMAXtxt.setEnabled(true);
 					AltMINtxt.setEnabled(true);
 					AltMAXtxt.setEnabled(true);
-					LatEnterButton.setEnabled(true);
-					LonEnterButton.setEnabled(true);
-					AltEnterButton.setEnabled(true);
-					LocationANDCheckBox.setEnabled(true);
-					LocationORCheckBox.setEnabled(true);
 					LocationNOTCheckBox.setEnabled(true);
-					
+					numberOfCheckedButtons++;
+					CheckboxSelected();
 				}
 				else{
 					LatMINtxt.setEnabled(false);
 					LatMAXtxt.setEnabled(false);
-					LonMintxt.setEnabled(false);
+					LonMINtxt.setEnabled(false);
 					LonMAXtxt.setEnabled(false);
 					AltMINtxt.setEnabled(false);
 					AltMAXtxt.setEnabled(false);
+					LatMINtxt.setText("XX.XXX");
+					LatMAXtxt.setText("YY.YYY");
+					LonMINtxt.setText("XX.XXX");
+					LonMAXtxt.setText("YY.YYY");
+					AltMINtxt.setText("XX.XXX");
+					AltMAXtxt.setText("YY.YYY");
 					LatEnterButton.setEnabled(false);
 					LonEnterButton.setEnabled(false);
 					AltEnterButton.setEnabled(false);
-					LocationANDCheckBox.setEnabled(false);
-					LocationORCheckBox.setEnabled(false);
 					LocationNOTCheckBox.setEnabled(false);
-					LocationANDCheckBox.setSelected(false);
-					LocationORCheckBox.setSelected(false);
 					LocationNOTCheckBox.setSelected(false);
+					numberOfCheckedButtons--;
+					CheckboxUnSelected();
 				}
 			}
 		});
@@ -399,91 +397,135 @@ public class GUI extends JFrame {
 				LocationRadioButton.setBounds(257, 339, 25, 25);
 				frame.getContentPane().add(LocationRadioButton);
 		
-		//TimeANDCheckBox
-		
-		TimeAndCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		TimeAndCheckBox.setBounds(191, 180, 59, 25);
-		TimeAndCheckBox.setEnabled(false);
-		frame.getContentPane().add(TimeAndCheckBox);
-		
-		//TimeORCheckBox
-		
-		TimeORCheckBox.setBounds(264, 180, 51, 25);
-		TimeORCheckBox.setEnabled(false);
-		frame.getContentPane().add(TimeORCheckBox);
-		
 		//TimeNOTCheckBOX
 		
-		TimeNOTCheckBox.setBounds(331, 180, 59, 25);
+		TimeNOTCheckBox.setBounds(232, 180, 59, 25);
 		TimeNOTCheckBox.setEnabled(false);
 		frame.getContentPane().add(TimeNOTCheckBox);
 		
 		//DeviceEnterButton
 		
-
+		DeviceEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String DeviceGetInput = Devicetxt.getText();
+			}
+		});
 		DeviceEnterButton.setEnabled(false);
-		DeviceEnterButton.setBounds(299, 260, 103, 25);
+		DeviceEnterButton.setBounds(343, 261, 103, 25);
 		frame.getContentPane().add(DeviceEnterButton);
-		
-		//DeviceAndCheckBox
-		DeviceAndCheckBox.setEnabled(false);
-		DeviceAndCheckBox.setBounds(191, 294, 59, 25);
-		frame.getContentPane().add(DeviceAndCheckBox);
-		
-		//DeviceORCheckBox
-		DeviceORCheckBox.setEnabled(false);
-		DeviceORCheckBox.setBounds(264, 294, 51, 25);
-		frame.getContentPane().add(DeviceORCheckBox);
 		
 		//DeviceNOTCheckBox
 		DeviceNOTCheckBox.setEnabled(false);
-		DeviceNOTCheckBox.setBounds(331, 294, 59, 25);
+		DeviceNOTCheckBox.setBounds(232, 294, 59, 25);
 		frame.getContentPane().add(DeviceNOTCheckBox);
 		
 	
 		//LatEnterButton
+		LatEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String LocationGetMinLat = LatMINtxt.getText();
+				String LocationFetMaxLat = LatMAXtxt.getText(); 
+			}
+		});
 		LatEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		LatEnterButton.setEnabled(false);
 		LatEnterButton.setBounds(232, 439, 65, 25);
 		frame.getContentPane().add(LatEnterButton);
 		
 		//LonEnterButton
+		LonEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String LocationGetMinLon = LonMINtxt.getText();
+				String LocationGetMaxLon = LonMAXtxt.getText();
+			}
+		});
 		LonEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		LonEnterButton.setEnabled(false);
 		LonEnterButton.setBounds(361, 439, 65, 25);
 		frame.getContentPane().add(LonEnterButton);
 		
 		//AltEnterButton
+		AltEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String LocationGetMinAlt = AltMINtxt.getText();
+				String LocationGetMaxAlt = AltMAXtxt.getText();
+			}
+		});
 		AltEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		AltEnterButton.setEnabled(false);
 		AltEnterButton.setBounds(489, 439, 65, 25);
 		frame.getContentPane().add(AltEnterButton);
 		
-		
-		//LocationANDCheckBox
-		LocationANDCheckBox.setEnabled(false);
-		LocationANDCheckBox.setBounds(232, 473, 59, 25);
-		frame.getContentPane().add(LocationANDCheckBox);
-		
-		//LocationORCheckBox
-		LocationORCheckBox.setEnabled(false);
-		LocationORCheckBox.setBounds(305, 473, 51, 25);
-		frame.getContentPane().add(LocationORCheckBox);
-		
 		//LocationNOTCheckBox
 		LocationNOTCheckBox.setEnabled(false);
-		LocationNOTCheckBox.setBounds(367, 473, 59, 25);
+		LocationNOTCheckBox.setBounds(232, 473, 59, 25);
 		frame.getContentPane().add(LocationNOTCheckBox);
 		
+		
+		//StartFiltrationButton
+		StartFiltrationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Time_Filter time = new Time_Filter("","");
+
+				if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected()){
+					if(AndCheckBox.isSelected()){
+						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
+						}
+						
+					}
+					if(ORCheckBox.isSelected()){
+						
+						
+						
+					}
+					
+				}
+				if(TimeRadioButton.isSelected() && LocationRadioButton.isSelected()){
+					
+				}
+				if(DeviceRadioButton.isSelected() && LocationRadioButton.isSelected()){
+					
+				}
+			}
+		});
+		StartFiltrationButton.setBounds(191, 572, 115, 44);
+		frame.getContentPane().add(StartFiltrationButton);
+		
+		//SaveFilterButton
+		SaveFilterButton.setBounds(318, 572, 115, 44);
+		SaveFilterButton.setBackground(new Color(211, 211, 211));
+		frame.getContentPane().add(SaveFilterButton);
+		
+		//AndCheckBox
+		AndCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(AndCheckBox.isSelected())
+					ORCheckBox.setEnabled(false);
+				else
+					ORCheckBox.setEnabled(true);
+			}
+		});
+		AndCheckBox.setBounds(191, 541, 59, 25);
+		frame.getContentPane().add(AndCheckBox);
+		
+		
+		//ORCheckBox
+		ORCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(ORCheckBox.isSelected())
+					AndCheckBox.setEnabled(false);
+				else
+					AndCheckBox.setEnabled(true);
+			}
+		});
+		ORCheckBox.setBounds(247, 541, 59, 25);
+		frame.getContentPane().add(ORCheckBox);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 0, 0));
 		separator.setForeground(new Color(255, 255, 255));
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(170, 13, 9, 507);
+		separator.setBounds(170, 13, 9, 624);
 		frame.getContentPane().add(separator);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -496,7 +538,7 @@ public class GUI extends JFrame {
 		separator_2.setOrientation(SwingConstants.VERTICAL);
 		separator_2.setForeground(Color.WHITE);
 		separator_2.setBackground(Color.BLACK);
-		separator_2.setBounds(579, 13, 9, 507);
+		separator_2.setBounds(579, 13, 9, 624);
 		frame.getContentPane().add(separator_2);
 		
 		JSeparator separator_3 = new JSeparator();
@@ -541,22 +583,43 @@ public class GUI extends JFrame {
 		
 		
 		TimeMINtxt = new JTextField();
+		TimeMINtxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(!(TimeMINtxt.getText().isEmpty()))
+					TimeMinEnterButton.setEnabled(true);
+				else
+					TimeMinEnterButton.setEnabled(false);
+
+			}
+		});
 		TimeMINtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				TimeMINtxt.setText("");
+				
+			
 			}
 		});
 		TimeMINtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		TimeMINtxt.setEnabled(false);
 		TimeMINtxt.setText("hh:mm:ss");
-		TimeMINtxt.setBounds(191, 112, 91, 25);
+		TimeMINtxt.setBounds(232, 112, 91, 25);
 		frame.getContentPane().add(TimeMINtxt);
 		TimeMINtxt.setColumns(10);
 		
 		
 	
 		TimeMAXtxt = new JTextField();
+		TimeMAXtxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(!(TimeMAXtxt.getText().isEmpty()))
+					TimeMaxEnterButton.setEnabled(true);
+				else
+					TimeMaxEnterButton.setEnabled(false);
+			}
+		});
 		TimeMAXtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -566,11 +629,20 @@ public class GUI extends JFrame {
 		TimeMAXtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		TimeMAXtxt.setEnabled(false);
 		TimeMAXtxt.setText("hh:mm:ss");
-		TimeMAXtxt.setBounds(191, 146, 91, 25);
+		TimeMAXtxt.setBounds(232, 146, 91, 25);
 		frame.getContentPane().add(TimeMAXtxt);
 		TimeMAXtxt.setColumns(10);
 		
 		Devicetxt = new JTextField();
+		Devicetxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(!(Devicetxt.getText().isEmpty()))
+					DeviceEnterButton.setEnabled(true);
+				else
+					DeviceEnterButton.setEnabled(false);
+			}
+		});
 		Devicetxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -581,7 +653,7 @@ public class GUI extends JFrame {
 		Devicetxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		Devicetxt.setEnabled(false);
 		Devicetxt.setColumns(10);
-		Devicetxt.setBounds(191, 260, 91, 25);
+		Devicetxt.setBounds(232, 260, 91, 25);
 		frame.getContentPane().add(Devicetxt);
 			
 		LatMINtxt = new JTextField();
@@ -604,6 +676,15 @@ public class GUI extends JFrame {
 		frame.getContentPane().add(lblLat);
 		
 		LatMAXtxt = new JTextField();
+		LatMAXtxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(!(LatMAXtxt.getText().isEmpty()))
+					LatEnterButton.setEnabled(true);
+				else
+					LatEnterButton.setEnabled(false);
+			}
+		});
 		LatMAXtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -622,21 +703,30 @@ public class GUI extends JFrame {
 		lblLon.setBounds(317, 380, 39, 16);
 		frame.getContentPane().add(lblLon);
 		
-		LonMintxt = new JTextField();
-		LonMintxt.addMouseListener(new MouseAdapter() {
+		LonMINtxt = new JTextField();
+		LonMINtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				LonMintxt.setText("");
+				LonMINtxt.setText("");
 			}
 		});
-		LonMintxt.setText("XX.XXX");
-		LonMintxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		LonMintxt.setEnabled(false);
-		LonMintxt.setColumns(10);
-		LonMintxt.setBounds(361, 376, 65, 25);
-		frame.getContentPane().add(LonMintxt);
+		LonMINtxt.setText("XX.XXX");
+		LonMINtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		LonMINtxt.setEnabled(false);
+		LonMINtxt.setColumns(10);
+		LonMINtxt.setBounds(361, 376, 65, 25);
+		frame.getContentPane().add(LonMINtxt);
 		
 		LonMAXtxt = new JTextField();
+		LonMAXtxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(!(LonMAXtxt.getText().isEmpty()))
+					LonEnterButton.setEnabled(true);
+				else
+					LonEnterButton.setEnabled(false);
+			}
+		});
 		LonMAXtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -678,6 +768,15 @@ public class GUI extends JFrame {
 		frame.getContentPane().add(AltMINtxt);
 		
 		AltMAXtxt = new JTextField();
+		AltMAXtxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(!(AltMAXtxt.getText().isEmpty()))
+					AltEnterButton.setEnabled(true);
+				else
+					AltEnterButton.setEnabled(false);
+			}
+		});
 		AltMAXtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -690,6 +789,14 @@ public class GUI extends JFrame {
 		AltMAXtxt.setColumns(10);
 		AltMAXtxt.setBounds(489, 408, 65, 25);
 		frame.getContentPane().add(AltMAXtxt);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	
 		
