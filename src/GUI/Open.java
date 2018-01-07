@@ -36,7 +36,7 @@ public class Open {
 
 	
 	
-	public File PickFile(){
+	public File PickCSVFile(){
 
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
@@ -50,7 +50,19 @@ public class Open {
 
 	}
 
-	
+	public File PickFilterFile(){
+
+		chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new java.io.File("."));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("TXT", "txt");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION)
+			return chooser.getSelectedFile();
+		return null;
+
+
+	}
 
 
 }
