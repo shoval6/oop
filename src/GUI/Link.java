@@ -3,6 +3,9 @@ package GUI;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.sun.javafx.css.CalculatedValue;
+
+import Algo.Calculating;
 import IO_Class.KMLWriter;
 import IO_Class.OrganizedCSV;
 import IO_Class.ReadCSV;
@@ -45,7 +48,15 @@ public class Link {
 
 
 	}
+	
+	public String[] Algo1(String mac , int num){
+		Calculating cal = new Calculating();
+		WiFi wifi = cal.MacCompare(DataBase, num, mac);
+		String str1 = wifi.getPoint().toString();
+		String[] str2 = str1.split(",");
+		return str2;
+	}
 
-//	public void Filter(String name , String)
+//	public void AndFilter(String name , String)
 	
 }
