@@ -44,7 +44,7 @@ public class WiFi implements Comparable<WiFi> {
 	}
 	
 	
-	/*
+	
 	@Override
 	public boolean equals(Object obj){
 		if(obj instanceof WiFi){
@@ -60,7 +60,7 @@ public class WiFi implements Comparable<WiFi> {
 		return true;
 	}
 	
-	*/
+	
 	@Override
 	 public int hashCode() {
 	 int res = 10;
