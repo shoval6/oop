@@ -42,7 +42,7 @@ public class Write {
 
 	}
 	
-	public static void SortbyFilter(ArrayList<WiFi> WiFi , Filter filter , String name ){
+	public void SortbyFilter(ArrayList<WiFi> WiFi , Filter filter , String name ){
 
 		for(int i=0; i<WiFi.size(); i++){
 			if(false == filter.test(WiFi.get(i))){
