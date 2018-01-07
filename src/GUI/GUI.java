@@ -21,6 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import IO_Class.ReadCSV;
+import IO_Class.Write;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
@@ -38,11 +40,24 @@ public class GUI extends JFrame {
 	private JFrame frame;
 	private JTextArea textArea;
     Link L1 = new Link();
-	JRadioButton TimeRadioButton = new JRadioButton("");
+	Link L2 = new Link();
+    JRadioButton TimeRadioButton = new JRadioButton("");
 	JRadioButton DeviceRadioButton = new JRadioButton("");
 	JRadioButton LocationRadioButton = new JRadioButton("");
 	JButton SaveFilterButton = new JButton("Save Filter");
 	JButton StartFiltrationButton = new JButton("Start Filtration");
+	Time_Filter time;
+	ID_Filter id;
+	Location_Filter loc;
+	private String TimeGetMin;
+	private String TimeGetMax;
+	private String DeviceGetInput;
+	private String LocationGetMinLat;
+	private String LocationGetMaxLat;
+	private String LocationGetMinLon;
+	private String LocationGetMaxLon;
+	private String LocationGetMinAlt;
+	private String LocationGetMaxAlt;
 	private JTextField TimeMINtxt;
     private JTextField TimeMAXtxt;
     private JTextField Devicetxt;
@@ -268,27 +283,6 @@ public class GUI extends JFrame {
 		frame.getContentPane().add(SaveKMLButton);
 		
 		
-		// TimeMinEnterButton
-		
-		TimeMinEnterButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String TimeGetMin = TimeMINtxt.getText();
-				
-			}
-		});
-		TimeMinEnterButton.setEnabled(false);
-		TimeMinEnterButton.setBounds(343, 113, 103, 25);
-		frame.getContentPane().add(TimeMinEnterButton);
-		
-		// TimeMaxEnterButton
-		TimeMaxEnterButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String TimeGetMax = TimeMAXtxt.getText();
-			}
-		});
-		TimeMaxEnterButton.setEnabled(false);
-		TimeMaxEnterButton.setBounds(343, 147, 103, 25);
-		frame.getContentPane().add(TimeMaxEnterButton);
 		
 		//TimeRadioButton
 		TimeRadioButton.addActionListener(new ActionListener() {
@@ -397,6 +391,33 @@ public class GUI extends JFrame {
 				LocationRadioButton.setBounds(257, 339, 25, 25);
 				frame.getContentPane().add(LocationRadioButton);
 		
+		
+				// TimeMinEnterButton
+				
+				TimeMinEnterButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TimeGetMin = TimeMINtxt.getText();
+						
+					}
+				});
+				TimeMinEnterButton.setEnabled(false);
+				TimeMinEnterButton.setBounds(343, 113, 103, 25);
+				frame.getContentPane().add(TimeMinEnterButton);
+				
+				// TimeMaxEnterButton
+				TimeMaxEnterButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TimeGetMax = TimeMAXtxt.getText();
+						time = new Time_Filter(TimeGetMin,TimeGetMax);
+
+					
+					}
+				});
+				TimeMaxEnterButton.setEnabled(false);
+				TimeMaxEnterButton.setBounds(343, 147, 103, 25);
+				frame.getContentPane().add(TimeMaxEnterButton);
+						
+				
 		//TimeNOTCheckBOX
 		
 		TimeNOTCheckBox.setBounds(232, 180, 59, 25);
@@ -407,7 +428,8 @@ public class GUI extends JFrame {
 		
 		DeviceEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String DeviceGetInput = Devicetxt.getText();
+				DeviceGetInput = Devicetxt.getText();
+				id = new ID_Filter(DeviceGetInput);
 			}
 		});
 		DeviceEnterButton.setEnabled(false);
@@ -423,8 +445,8 @@ public class GUI extends JFrame {
 		//LatEnterButton
 		LatEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String LocationGetMinLat = LatMINtxt.getText();
-				String LocationFetMaxLat = LatMAXtxt.getText(); 
+				LocationGetMinLat = LatMINtxt.getText();
+				LocationGetMaxLat = LatMAXtxt.getText(); 
 			}
 		});
 		LatEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -435,8 +457,8 @@ public class GUI extends JFrame {
 		//LonEnterButton
 		LonEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String LocationGetMinLon = LonMINtxt.getText();
-				String LocationGetMaxLon = LonMAXtxt.getText();
+				LocationGetMinLon = LonMINtxt.getText();
+				LocationGetMaxLon = LonMAXtxt.getText();
 			}
 		});
 		LonEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -447,8 +469,9 @@ public class GUI extends JFrame {
 		//AltEnterButton
 		AltEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String LocationGetMinAlt = AltMINtxt.getText();
-				String LocationGetMaxAlt = AltMAXtxt.getText();
+				LocationGetMinAlt = AltMINtxt.getText();
+				LocationGetMaxAlt = AltMAXtxt.getText();
+				Location_Filter loc = new Location_Filter(LocationGetMinLat, LocationGetMinLon, LocationGetMinAlt, LocationGetMaxLat, LocationGetMaxLon, LocationGetMaxAlt);
 			}
 		});
 		AltEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -465,29 +488,196 @@ public class GUI extends JFrame {
 		//StartFiltrationButton
 		StartFiltrationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Time_Filter time = new Time_Filter("","");
-
-				if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected()){
-					if(AndCheckBox.isSelected()){
-						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
+				L2.DataBase = L1.DataBase;
+				Write w = new Write(); 
+				Not_Filter not1;
+				Not_Filter not2;
+				And_Filter and;
+				Or_Filter or;
+				
+				if(AndCheckBox.isSelected()){ // and selected 
+				if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected()){ // if time & device selected
+						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){ // not selected both
+						not1 = new Not_Filter(time);
+						not2 = new Not_Filter(id);
+						and = new And_Filter(not1, not2);
+						w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
 						}
-						
-					}
-					if(ORCheckBox.isSelected()){
-						
-						
-						
-					}
+						if(TimeNOTCheckBox.isSelected() && !DeviceNOTCheckBox.isSelected()){ 
+							not1 = new Not_Filter(time);
+							and = new And_Filter(not1, id);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
 					
-				}
+						else{
+							not1 = new Not_Filter(id);
+							and = new And_Filter(not1, time);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
+					
+					}
+						
 				if(TimeRadioButton.isSelected() && LocationRadioButton.isSelected()){
+					if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){ // not selected both
+						not1 = new Not_Filter(time);
+						not2 = new Not_Filter(loc);
+						and = new And_Filter(not1, not2);
+						w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
+						if(TimeNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
+							not1 = new Not_Filter(time);
+							and = new And_Filter(not1, loc);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
 					
+						else{
+							not1 = new Not_Filter(loc);
+							and = new And_Filter(not1, time);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
 				}
 				if(DeviceRadioButton.isSelected() && LocationRadioButton.isSelected()){
+					if(DeviceNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){ // not selected both
+						not1 = new Not_Filter(id);
+						not2 = new Not_Filter(loc);
+						and = new And_Filter(not1, not2);
+						w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
+						if(DeviceNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
+							not1 = new Not_Filter(id);
+							and = new And_Filter(not1, loc);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
+					
+						else{
+							not1 = new Not_Filter(loc);
+							and = new And_Filter(not1, id);
+							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+						}
 					
 				}
 			}
-		});
+		
+				
+				if(ORCheckBox.isSelected()){ // or selected
+					if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected()){ 
+						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){ // not selected both
+						not1 = new Not_Filter(time);
+						not2 = new Not_Filter(id);
+						or = new Or_Filter(not1, not2);
+						w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+						}
+						if(TimeNOTCheckBox.isSelected() && !DeviceNOTCheckBox.isSelected()){ 
+							not1 = new Not_Filter(time);
+							or = new Or_Filter(not1, id);
+							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+						}
+					
+						else{
+							not1 = new Not_Filter(id);
+							or = new Or_Filter(not1, time);
+							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+						}
+					
+					}
+					if(TimeRadioButton.isSelected() && LocationRadioButton.isSelected()){
+						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){ // not selected both
+							not1 = new Not_Filter(time);
+							not2 = new Not_Filter(loc);
+							or = new Or_Filter(not1, not2);
+							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+							if(TimeNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
+								not1 = new Not_Filter(time);
+								or = new Or_Filter(not1, loc);
+								w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+						
+							else{
+								not1 = new Not_Filter(loc);
+								or = new Or_Filter(not1, time);
+								w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+					}
+					
+					if(DeviceRadioButton.isSelected() && LocationRadioButton.isSelected()){
+						if(DeviceNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){ // not selected both
+							not1 = new Not_Filter(id);
+							not2 = new Not_Filter(loc);
+							or = new Or_Filter(not1, not2);
+							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+							if(DeviceNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
+								not1 = new Not_Filter(id);
+								or = new Or_Filter(not1, loc);
+								w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+						
+							else{
+								not1 = new Not_Filter(loc);
+								or = new Or_Filter(not1, id);
+								w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							}
+						
+					}
+					
+					
+					
+				}
+			
+				if(TimeRadioButton.isSelected() && !LocationRadioButton.isSelected() && !DeviceRadioButton.isSelected()){
+					if(TimeNOTCheckBox.isSelected()){
+						not1 = new Not_Filter(time);
+						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
+
+					}
+				
+					else
+						w.SortbyFilter(L2.DataBase, time, "FilteredCSV");
+
+				}
+		
+				
+				if(DeviceRadioButton.isSelected() && !TimeRadioButton.isSelected() && !LocationRadioButton.isSelected()){
+					if(DeviceNOTCheckBox.isSelected()){
+						not1 = new Not_Filter(id);
+						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
+					}
+					
+					else
+						w.SortbyFilter(L2.DataBase, id, "FilteredCSV");
+				}
+				
+				if(LocationRadioButton.isSelected() && !TimeRadioButton.isSelected() && !DeviceRadioButton.isSelected()){
+					if(LocationNOTCheckBox.isSelected()){
+						not1 = new Not_Filter(loc);
+						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
+					}
+					
+					else
+						w.SortbyFilter(L2.DataBase, loc, "FilteredCSV");
+
+					
+					
+					
+				}
+				
+				if(LocationRadioButton.isSelected() && !TimeRadioButton.isSelected() && !DeviceRadioButton.isSelected()){
+					if(LocationNOTCheckBox.isSelected()){
+						not1 = new Not_Filter(loc);
+						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
+					}
+					
+					else
+						w.SortbyFilter(L2.DataBase, loc, "FilteredCSV");
+
+					
+					
+					
+				}
+			
+			}
+			});
 		StartFiltrationButton.setBounds(191, 572, 115, 44);
 		frame.getContentPane().add(StartFiltrationButton);
 		
