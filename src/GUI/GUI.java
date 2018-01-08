@@ -204,22 +204,30 @@ public class GUI extends JFrame {
 		JButton SaveKMLButton = new JButton("Save ---> KML");
 		SaveKMLButton.setBackground(new Color(211, 211, 211));
 		JButton TimeMinEnterButton = new JButton("Enter MIN");
+		TimeMinEnterButton.setBackground(new Color(211, 211, 211));
 		JButton TimeMaxEnterButton = new JButton("Enter MAX");
+		TimeMaxEnterButton.setBackground(new Color(211, 211, 211));
 		JCheckBox TimeNOTCheckBox = new JCheckBox("NOT");
 		JButton DeviceEnterButton = new JButton("Enter");
+		DeviceEnterButton.setBackground(new Color(211, 211, 211));
 		JCheckBox DeviceNOTCheckBox = new JCheckBox("NOT");
 		JButton LatEnterButton = new JButton("Enter");
+		LatEnterButton.setBackground(new Color(211, 211, 211));
 		JButton LonEnterButton = new JButton("Enter");
+		LonEnterButton.setBackground(new Color(211, 211, 211));
 		JButton AltEnterButton = new JButton("Enter");
+		AltEnterButton.setBackground(new Color(211, 211, 211));
 		JCheckBox LocationNOTCheckBox = new JCheckBox("NOT");
 		JCheckBox AndCheckBox = new JCheckBox("AND");
 		JCheckBox ORCheckBox = new JCheckBox("OR");
 		JButton OpenFilterButton = new JButton("Open Filter");
 		JButton CancelFilterButton = new JButton("Cancel Filter");
 		JButton MacAddressButton = new JButton("Enter");
+		MacAddressButton.setBackground(new Color(211, 211, 211));
 		JButton Algo2EnterButton = new JButton("Enter");
-	
+		Algo2EnterButton.setBackground(new Color(211, 211, 211));
 		JButton Algo2SampleEnterButton = new JButton("Enter");
+		Algo2SampleEnterButton.setBackground(new Color(211, 211, 211));
 		
 
 
@@ -771,6 +779,7 @@ public class GUI extends JFrame {
 				//
 				DeviceRadioButton.setSelected(false);
 				Devicetxt.setEnabled(false);
+				Devicetxt.setText("Name");
 				DeviceEnterButton.setEnabled(false);
 				DeviceNOTCheckBox.setEnabled(false);
 				DeviceNOTCheckBox.setSelected(false);
@@ -849,7 +858,7 @@ public class GUI extends JFrame {
 		Algo2EnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			copy(L1, L3);
-			String[] str = {};
+			String[] str = {"","","","","",""};
 			Algo2GetMac1 = Mac1txt.getText();
 			Algo2GetMac2 = Mac2txt.getText();
 			Algo2GetMac3 = Mac3txt.getText();
@@ -862,10 +871,10 @@ public class GUI extends JFrame {
 			str[3] = Algo2GetSignal2;
 			str[4] = Algo2GetMac3;
 			str[5] = Algo2GetSignal3;
-			str = L3.Algo2Pairs(str);
-			AlgoLattxt.setText(str[0]);
-			AlgoLontxt.setText(str[1]);
-			AlgoAlttxt.setText(str[2]);
+			String[] str2 = L3.Algo2Pairs(str);
+			AlgoLattxt.setText(str2[0]);
+			AlgoLontxt.setText(str2[1]);
+			AlgoAlttxt.setText(str2[2]);
 			L3 = new Link();
 			}
 		});
