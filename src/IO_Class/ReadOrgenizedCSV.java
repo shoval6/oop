@@ -87,6 +87,36 @@ public class ReadOrgenizedCSV {
 	}
 	
 	
+	public WiFi ReadSample(String[] str){
+		double Lat , Lon , Alt;
+		WiFi wifi = null;
+		WiFiSub sub = null;
+		Point3D point = null;
+		String MAC;
+		int Signal;
+		Lat = Double.parseDouble(str[2]);
+		Lon = Double.parseDouble(str[3]);
+		Alt = Double.parseDouble(str[4]);
+		point = new Point3D(Lat, Lon, Alt);
+
+		wifi = new WiFi(null, null , point , 0);
+		for(int i=0; i<str.length; i++){
+			if(!((6+(i*4))==str.length)){
+			MAC = str[7+(i*4)];
+			Signal = (int)Double.parseDouble(str[9+(i*4)]);
+			sub = new WiFiSub(null, MAC, 0 , Signal);
+			wifi.add(sub);
+			}			
+			else
+				i = str.length;
+
+		}
+		
+		return wifi;
+		
+	}
+	
+	
 	public ArrayList<WiFi> Merge(ArrayList<WiFi> List , ArrayList<WiFi> temp){
 		Set<WiFi> hset = new HashSet<WiFi>();
 		ArrayList<WiFi> arr = new ArrayList<WiFi>();
