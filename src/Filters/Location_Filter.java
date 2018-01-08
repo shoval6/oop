@@ -27,7 +27,7 @@ public class Location_Filter implements Filter{
 		if (wifi != null) {
 			if (((wifi.getPoint().getLon() > this.startLon) && (wifi.getPoint().getLon() < this.endLon))
 					&& ((wifi.getPoint().getLat() > this.startLat) && (wifi.getPoint().getLat() < this.endLat))
-			&& ((wifi.getPoint().getAlt() > this.startAlt) && (wifi.getPoint().getLat() < this.endAlt))){
+			&& ((wifi.getPoint().getAlt() > this.startAlt) && (wifi.getPoint().getAlt() < this.endAlt))){
 				return true;
 			}
 		}
