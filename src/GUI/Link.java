@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.sun.javafx.css.CalculatedValue;
 
+import Algo.Algorithm2;
 import Algo.Calculating;
 import IO_Class.KMLWriter;
 import IO_Class.OrganizedCSV;
@@ -12,6 +13,7 @@ import IO_Class.ReadCSV;
 import IO_Class.ReadOrgenizedCSV;
 import IO_Class.Write;
 import WiFi.WiFi;
+import WiFi.WiFiSub;
 import oop2.*;
 public class Link {
 
@@ -57,6 +59,30 @@ public class Link {
 		return str2;
 	}
 
+	public String[] Algo2Sample(String[] str){
+		ReadOrgenizedCSV rd = new ReadOrgenizedCSV();
+		Algorithm2 algo2 = new Algorithm2();
+		WiFi wifi = rd.ReadSample(str);
+		wifi = algo2.CalcAlgo2(DataBase, wifi, 3);
+		String[] res = wifi.getPoint().toString().split(",");
+		return res;
+	}
+	
+	public String[] Algo2Pairs(String[]str){
+		WiFi wifi = new WiFi(null,null,null,0);
+		WiFiSub sub1 , sub2 , sub3;
+		
+		sub1 = new WiFiSub("", str[0], 0, Integer.parseInt(str[1]));
+		sub2 = new WiFiSub("", str[2], 0, Integer.parseInt(str[3]));
+		sub3 = new WiFiSub("", str[4], 0, Integer.parseInt(str[5]));
+		wifi.add(sub1);
+		wifi.add(sub2);
+		wifi.add(sub3);
+		Algorithm2 algo2 = new Algorithm2();
+		wifi = algo2.CalcAlgo2(DataBase, wifi, 3);
+		String[] res = wifi.getPoint().toString().split(",");
+		return res;
+	}
 //	public void AndFilter(String name , String)
 	
 }
