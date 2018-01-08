@@ -43,6 +43,7 @@ public class GUI extends JFrame {
 	private JTextArea textArea;
 	Link L1 = new Link();
 	Link L2 = new Link();
+	Link L3 = new Link();
 	JRadioButton TimeRadioButton = new JRadioButton("");
 	JRadioButton DeviceRadioButton = new JRadioButton("");
 	JRadioButton LocationRadioButton = new JRadioButton("");
@@ -64,6 +65,12 @@ public class GUI extends JFrame {
 	private String LocationGetMaxAlt;
 	private String Algo1GetMac;
 	private int Algo1getnum;
+	private String Algo2GetMac1;
+	private String Algo2GetMac2;
+	private String Algo2GetMac3;
+	private String Algo2GetSignal1;
+	private String Algo2GetSignal2;
+	private String Algo2GetSignal3;
 	private JTextField TimeMINtxt;
 	private JTextField TimeMAXtxt;
 	private JTextField Devicetxt;
@@ -75,9 +82,16 @@ public class GUI extends JFrame {
 	private JTextField AltMAXtxt;
 	private JTextField Algo1txt;
 	private JTextField NumOfMacstxt;
-	private JTextField Algo1Lattxt;
-	private JTextField Algo1Lontxt;
-	private JTextField Algo1Alttxt;
+	private JTextField AlgoLattxt;
+	private JTextField AlgoLontxt;
+	private JTextField AlgoAlttxt;
+	private JTextField Algo2Sampletxt;
+	private JTextField Mac1txt;
+	private JTextField Mac2txt;
+	private JTextField Mac3txt;
+	private JTextField Signal1;
+	private JTextField Signal2;
+	private JTextField Signal3;
 
 	/**
 	 * Launch the application.
@@ -111,14 +125,20 @@ public class GUI extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 
-	//private boolean CheckInput(){
+	/*
+	private boolean CheckAlgo1(){
+		boolean flag = false;
+		if(NumOfMacstxt.getText().equals("") || AlgoAlttxt.getText().equals(""))
+			JOptionPane.showMessageDialog(null, "Invalid Input");
+		
+		}
 
-	//	}
-
+*/
 	public void copy(Link l1 ,Link l2 ){
 		for(int i=0; i<l1.DataBase.size(); i++)
 			l2.temp.add(new WiFi(l1.DataBase.get(i)));
 		l2.DataBase = l2.temp;
+		l2.temp = new ArrayList<>();
 	}
 	
 	private void setEnabled(){
@@ -197,6 +217,9 @@ public class GUI extends JFrame {
 		JButton OpenFilterButton = new JButton("Open Filter");
 		JButton CancelFilterButton = new JButton("Cancel Filter");
 		JButton MacAddressButton = new JButton("Enter");
+		JButton Algo2EnterButton = new JButton("Enter");
+	
+		JButton Algo2SampleEnterButton = new JButton("Enter");
 		
 
 
@@ -802,20 +825,70 @@ public class GUI extends JFrame {
 		//MacAddresButton
 		MacAddressButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+					if(AlgoAlttxt.getText().equals("MAC Addredd") || NumOfMacstxt.getText().equals("Num. of Macs"))
+						JOptionPane.showMessageDialog(null, "Invald Input !");
+					else{
+				    copy(L1, L3);
 					Algo1GetMac = Algo1txt.getText();
 					Algo1getnum = Integer.parseInt(NumOfMacstxt.getText());
-					String[] str = L1.Algo1(Algo1GetMac, Algo1getnum);
-					Algo1Lattxt.setText(str[0]);
-					Algo1Lontxt.setText(str[1]);
-					Algo1Alttxt.setText(str[2]);
-			
+					String[] str = L3.Algo1(Algo1GetMac, Algo1getnum);
+					AlgoLattxt.setText(str[0]);
+					AlgoLontxt.setText(str[1]);
+					AlgoAlttxt.setText(str[2]);
+					L3 = new Link();
+					}
 			}
 		});
 
 		MacAddressButton.setEnabled(true);
-		MacAddressButton.setBounds(811, 134, 103, 26);
+		MacAddressButton.setBounds(851, 134, 103, 30);
 		frame.getContentPane().add(MacAddressButton);
 		
+		
+		//Algo2EnterButton
+		Algo2EnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			copy(L1, L3);
+			String[] str = {};
+			Algo2GetMac1 = Mac1txt.getText();
+			Algo2GetMac2 = Mac2txt.getText();
+			Algo2GetMac3 = Mac3txt.getText();
+			Algo2GetSignal1 = Signal1.getText();
+			Algo2GetSignal2 = Signal2.getText();
+			Algo2GetSignal3 = Signal3.getText();
+			str[0] = Algo2GetMac1;
+			str[1] = Algo2GetSignal1;
+			str[2] = Algo2GetMac2;
+			str[3] = Algo2GetSignal2;
+			str[4] = Algo2GetMac3;
+			str[5] = Algo2GetSignal3;
+			str = L3.Algo2Pairs(str);
+			AlgoLattxt.setText(str[0]);
+			AlgoLontxt.setText(str[1]);
+			AlgoAlttxt.setText(str[2]);
+			L3 = new Link();
+			}
+		});
+		Algo2EnterButton.setEnabled(true);
+		Algo2EnterButton.setBounds(851, 387, 103, 30);
+		frame.getContentPane().add(Algo2EnterButton);
+		
+		//Algo2SampleEnterButton
+		Algo2SampleEnterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				copy(L1, L3);
+				String[] str = Algo2Sampletxt.getText().split(",");
+				str = L3.Algo2Sample(str);
+				AlgoLattxt.setText(str[0]);
+				AlgoLontxt.setText(str[1]);
+				AlgoAlttxt.setText(str[2]);
+				L3 = new Link();
+			}
+		});
+
+		Algo2SampleEnterButton.setEnabled(true);
+		Algo2SampleEnterButton.setBounds(715, 238, 103, 31);
+		frame.getContentPane().add(Algo2SampleEnterButton);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 0, 0));
@@ -1086,6 +1159,7 @@ public class GUI extends JFrame {
 		
 		
 		Algo1txt = new JTextField();
+		Algo1txt.setHorizontalAlignment(SwingConstants.CENTER);
 		Algo1txt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -1098,15 +1172,15 @@ public class GUI extends JFrame {
 		Algo1txt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		Algo1txt.setEnabled(true);
 		Algo1txt.setColumns(10);
-		Algo1txt.setBounds(600, 134, 103, 25);
+		Algo1txt.setBounds(600, 134, 131, 30);
 		frame.getContentPane().add(Algo1txt);
 		
 		
-		Algo1Lattxt = new JTextField();
-		Algo1Lattxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		Algo1Lattxt.setBounds(788, 171, 181, 41);
-		frame.getContentPane().add(Algo1Lattxt);
-		Algo1Lattxt.setColumns(10);
+		AlgoLattxt = new JTextField();
+		AlgoLattxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		AlgoLattxt.setBounds(794, 518, 181, 41);
+		frame.getContentPane().add(AlgoLattxt);
+		AlgoLattxt.setColumns(10);
 		
 		JSeparator separator_5 = new JSeparator();
 		separator_5.setOrientation(SwingConstants.VERTICAL);
@@ -1141,12 +1215,12 @@ public class GUI extends JFrame {
 		
 		JLabel lblCalculatedPoint = new JLabel("Calculated Point :");
 		lblCalculatedPoint.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCalculatedPoint.setBounds(600, 169, 131, 44);
+		lblCalculatedPoint.setBounds(600, 516, 131, 44);
 		frame.getContentPane().add(lblCalculatedPoint);
 		
 		JSeparator separator_7 = new JSeparator();
 		separator_7.setForeground(Color.BLACK);
-		separator_7.setBounds(600, 339, 385, 13);
+		separator_7.setBounds(600, 180, 385, 13);
 		frame.getContentPane().add(separator_7);
 		
 		NumOfMacstxt = new JTextField();
@@ -1157,37 +1231,156 @@ public class GUI extends JFrame {
 			}
 		});
 		NumOfMacstxt.setText("Num. of Macs");
-		NumOfMacstxt.setBounds(708, 134, 91, 25);
+		NumOfMacstxt.setBounds(748, 134, 91, 30);
 		frame.getContentPane().add(NumOfMacstxt);
 		NumOfMacstxt.setColumns(10);
 		
 		JLabel label = new JLabel("Alt :");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Tahoma", Font.BOLD, 15));
-		label.setBounds(744, 292, 39, 16);
+		label.setBounds(743, 646, 39, 16);
 		frame.getContentPane().add(label);
 		
 		JLabel label_1 = new JLabel("Lat :");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		label_1.setBounds(744, 183, 39, 16);
+		label_1.setBounds(743, 530, 39, 16);
 		frame.getContentPane().add(label_1);
 		
 		JLabel label_2 = new JLabel("Lon :");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		label_2.setBounds(744, 235, 39, 16);
+		label_2.setBounds(743, 589, 39, 16);
 		frame.getContentPane().add(label_2);
 		
-		Algo1Lontxt = new JTextField();
-		Algo1Lontxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		Algo1Lontxt.setColumns(10);
-		Algo1Lontxt.setBounds(788, 226, 181, 41);
-		frame.getContentPane().add(Algo1Lontxt);
+		AlgoLontxt = new JTextField();
+		AlgoLontxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		AlgoLontxt.setColumns(10);
+		AlgoLontxt.setBounds(794, 577, 181, 41);
+		frame.getContentPane().add(AlgoLontxt);
 		
-		Algo1Alttxt = new JTextField();
-		Algo1Alttxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		Algo1Alttxt.setColumns(10);
-		Algo1Alttxt.setBounds(788, 280, 181, 41);
-		frame.getContentPane().add(Algo1Alttxt);
+		AlgoAlttxt = new JTextField();
+		AlgoAlttxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		AlgoAlttxt.setColumns(10);
+		AlgoAlttxt.setBounds(794, 634, 181, 41);
+		frame.getContentPane().add(AlgoAlttxt);
+		
+		JLabel lblAlgorithm_1 = new JLabel("Algorithm 2");
+		lblAlgorithm_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAlgorithm_1.setBounds(600, 193, 96, 44);
+		frame.getContentPane().add(lblAlgorithm_1);
+		
+		Algo2Sampletxt = new JTextField();
+		Algo2Sampletxt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Algo2Sampletxt.setText("");
+			}
+		});
+		Algo2Sampletxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Algo2Sampletxt.setText("Enter Sample");
+		Algo2Sampletxt.setBounds(600, 239, 103, 30);
+		frame.getContentPane().add(Algo2Sampletxt);
+		Algo2Sampletxt.setColumns(10);
+		
+		
+		
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setBounds(600, 294, 385, 13);
+		frame.getContentPane().add(separator_8);
+		
+		JLabel label_3 = new JLabel("Algorithm 2");
+		label_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		label_3.setBounds(600, 298, 96, 44);
+		frame.getContentPane().add(label_3);
+		
+		Mac1txt = new JTextField();
+		Mac1txt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Mac1txt.setText("");
+			}
+		});
+		Mac1txt.setHorizontalAlignment(SwingConstants.CENTER);
+		Mac1txt.setText("MAC1");
+		Mac1txt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Mac1txt.setEnabled(true);
+		Mac1txt.setColumns(10);
+		Mac1txt.setBounds(600, 342, 131, 30);
+		frame.getContentPane().add(Mac1txt);
+		
+		Mac2txt = new JTextField();
+		Mac2txt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Mac2txt.setText("");
+			}
+		});
+		Mac2txt.setText("MAC2");
+		Mac2txt.setHorizontalAlignment(SwingConstants.CENTER);
+		Mac2txt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Mac2txt.setEnabled(true);
+		Mac2txt.setColumns(10);
+		Mac2txt.setBounds(600, 387, 131, 30);
+		frame.getContentPane().add(Mac2txt);
+		
+		Mac3txt = new JTextField();
+		Mac3txt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Mac3txt.setText("");
+			}
+		});
+		Mac3txt.setText("MAC3");
+		Mac3txt.setHorizontalAlignment(SwingConstants.CENTER);
+		Mac3txt.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Mac3txt.setEnabled(true);
+		Mac3txt.setColumns(10);
+		Mac3txt.setBounds(600, 430, 131, 30);
+		frame.getContentPane().add(Mac3txt);
+		
+		Signal1 = new JTextField();
+		Signal1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Signal1.setText("");
+			}
+		});
+		Signal1.setHorizontalAlignment(SwingConstants.CENTER);
+		Signal1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Signal1.setText("Signal1");
+		Signal1.setBounds(748, 342, 71, 30);
+		frame.getContentPane().add(Signal1);
+		Signal1.setColumns(10);
+		
+		Signal2 = new JTextField();
+		Signal2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Signal2.setText("");
+			}
+		});
+		Signal2.setHorizontalAlignment(SwingConstants.CENTER);
+		Signal2.setText("Signal2");
+		Signal2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Signal2.setColumns(10);
+		Signal2.setBounds(747, 387, 71, 30);
+		frame.getContentPane().add(Signal2);
+		
+		Signal3 = new JTextField();
+		Signal3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Signal3.setText("");
+			}
+		});
+		Signal3.setHorizontalAlignment(SwingConstants.CENTER);
+		Signal3.setText("Signal3");
+		Signal3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		Signal3.setColumns(10);
+		Signal3.setBounds(748, 430, 71, 30);
+		frame.getContentPane().add(Signal3);
+		
+		
 		
 		
 		
