@@ -556,20 +556,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(id);
 							and = new And_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
-							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))&(!(Device("+DeviceGetInput+")))"+"\n") ;
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))&&(!(Device("+DeviceGetInput+"))))"+"\n") ;
 
 						}
 						if(TimeNOTCheckBox.isSelected() && !DeviceNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(time);
 							and = new And_Filter(not1, id);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))&&(Device("+DeviceGetInput+")))"+"\n") ;
+
 						}
 
 							if(!TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(id);
 							and = new And_Filter(not1, time);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
-						
+							textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+")&&(!(Device("+DeviceGetInput+"))))"+"\n") ;
+
 						}
 
 					}
@@ -580,19 +583,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(loc);
 							and = new And_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
-							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))&(!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+")) && (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
 
 						}
 						if(TimeNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(time);
 							and = new And_Filter(not1, loc);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+") && (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+
 						}
 
 						if(!TimeNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(loc);
 							and = new And_Filter(not1, time);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+") && (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 					}
 					if(DeviceRadioButton.isSelected() && LocationRadioButton.isSelected()){
@@ -601,17 +608,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(loc);
 							and = new And_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (!(Device("+DeviceGetInput+")) && (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 						if(DeviceNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(id);
 							and = new And_Filter(not1, loc);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (!(Device("+DeviceGetInput+")) && (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+
 						}
 
 						if(!DeviceNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(loc);
 							and = new And_Filter(not1, id);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
+							textArea.append("Filter: (Device("+DeviceGetInput+") && (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 
 					}
@@ -629,17 +642,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(id);
 							or = new Or_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+")) || (!(Device("+DeviceGetInput+"))))"+"\n") ;
+
 						}
 						if(TimeNOTCheckBox.isSelected() && !DeviceNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(time);
 							or = new Or_Filter(not1, id);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+")) || (Device("+DeviceGetInput+")))"+"\n") ;
+
 						}
 
 						if(!TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(id);
 							or = new Or_Filter(not1, time);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+") || (!(Device("+DeviceGetInput+"))))"+"\n") ;
+
 						}
 
 					}
@@ -649,17 +668,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(loc);
 							or = new Or_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+")) || (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 						if(TimeNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(time);
 							or = new Or_Filter(not1, loc);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+") || (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+
 						}
 
 						if(!TimeNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(loc);
 							or = new Or_Filter(not1, time);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+") || (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 					}
 
@@ -669,17 +694,23 @@ public class GUI extends JFrame {
 							not2 = new Not_Filter(loc);
 							or = new Or_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Device("+DeviceGetInput+")) || (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 						if(DeviceNOTCheckBox.isSelected() && !LocationNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(id);
 							or = new Or_Filter(not1, loc);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (!(Device("+DeviceGetInput+")) || (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+
 						}
 
 						if(!DeviceNOTCheckBox.isSelected() && LocationNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(loc);
 							or = new Or_Filter(not1, id);
 							w.SortbyFilter(L2.DataBase, or, "FilteredCSV");
+							textArea.append("Filter: (Device("+DeviceGetInput+") || (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))))"+"\n") ;
+
 						}
 
 					}
@@ -693,12 +724,13 @@ public class GUI extends JFrame {
 						not1 = new Not_Filter(time);
 						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
 						save = not1;
+						textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+")))"+"\n");
 					}
 
 					else{
 						w.SortbyFilter(L2.DataBase, time, "FilteredCSV");
 						save = time;
-						System.out.println("timeeeeee");
+						textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))"+"\n");
 					}
 					}
 
@@ -707,11 +739,15 @@ public class GUI extends JFrame {
 						not1 = new Not_Filter(id);
 						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
 						save = not1;
+						textArea.append("Filter: (!(Device("+DeviceGetInput+")))"+"\n") ;
+
 					}
 
 					else
 						w.SortbyFilter(L2.DataBase, id, "FilteredCSV");
 						save = id;
+						textArea.append("Filter: (Device("+DeviceGetInput+"))"+"\n") ;
+
 				}
 
 				if(LocationRadioButton.isSelected() && !TimeRadioButton.isSelected() && !DeviceRadioButton.isSelected() && flag){
@@ -719,11 +755,15 @@ public class GUI extends JFrame {
 						not1 = new Not_Filter(loc);
 						w.SortbyFilter(L2.DataBase, not1, "FilteredCSV");
 						save = not1;
+						textArea.append("Filter: (!(Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+")))"+"\n") ;
+
 					}
 
 					else
 						w.SortbyFilter(L2.DataBase, loc, "FilteredCSV");
 						save = loc;
+						textArea.append("Filter: (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))"+"\n") ;
+
 				}
 
 
