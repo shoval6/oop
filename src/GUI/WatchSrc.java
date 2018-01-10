@@ -10,8 +10,6 @@ public class WatchSrc implements Runnable {
 	   private static Map<WatchKey, Path> keyPathMap = new HashMap<>();
 	   static Path path;
 	   
-	  
-
 	   @Override
 	   public void run() {
 		   try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
