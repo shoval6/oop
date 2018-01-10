@@ -84,6 +84,5 @@ public class Link {
 		String[] res = wifi.getPoint().toString().split(",");
 		return res;
 	}
-//	public void AndFilter(String name , String)
 	
 }
