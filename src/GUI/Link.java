@@ -15,7 +15,6 @@ import IO_Class.Write;
 import WiFi.WiFi;
 import WiFi.Point3D;
 import WiFi.WiFiSub;
-import oop2.*;
 public class Link {
 
 	ArrayList<WiFi> DataBase = new ArrayList<WiFi>();

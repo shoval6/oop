@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import Filters.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
@@ -17,11 +18,15 @@ import javax.swing.JMenuItem;
 import javax.swing.BorderFactory;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
 import IO_Class.ReadCSV;
 import IO_Class.Write;
 import WiFi.WiFi;
@@ -1441,10 +1446,13 @@ public class GUI extends JFrame {
 		
 		
 		
-		textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	
+		
+	    textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textArea.setEditable(false);
 		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		textArea.setBounds(30, 51, 938, 117);
+		
 		
 		 JScrollPane scroll = new JScrollPane (textArea);
 		 scroll.setBounds(12, 11, 973, 169);

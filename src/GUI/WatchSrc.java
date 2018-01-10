@@ -33,7 +33,7 @@ public class WatchSrc implements Runnable {
 
 	       if (!Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)) {
 	           return;
-	       }
+	       } 
 
 	       System.out.println("registering: " + path);
 
