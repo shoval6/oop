@@ -1447,12 +1447,13 @@ public class GUI extends JFrame {
 		
 		
 	
-		
+	    TitledBorder titled = new TitledBorder("LOG");
+
 	    textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textArea.setEditable(false);
 		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		textArea.setBounds(30, 51, 938, 117);
-		
+		textArea.setBorder(titled);
 		
 		 JScrollPane scroll = new JScrollPane (textArea);
 		 scroll.setBounds(12, 11, 973, 169);
