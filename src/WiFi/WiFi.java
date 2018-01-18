@@ -25,6 +25,43 @@ public class WiFi implements Comparable<WiFi> {
 	private String ID;
 	private double Weight;
 
+	
+	public WiFi(){
+		
+		this.time = null;
+		this.ID = "";
+		this.point = null;
+		this.arr = new ArrayList<WiFiSub>();
+		this.Weight = 0;
+	
+	}
+	
+
+
+	public ArrayList<WiFiSub> getArr() {
+		return arr;
+	}
+
+
+
+	public void setArr(ArrayList<WiFiSub> arr) {
+		this.arr = arr;
+	}
+
+
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+
+
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+
+
 	public WiFi(Date time , String ID , Point3D point , double Weight){
 
 		this.time = time;
