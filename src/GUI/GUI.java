@@ -48,9 +48,9 @@ public class GUI extends JFrame {
 	String path = "C:\\Users\\shoval\\Documents\\GitHub\\oop";
 	int numberOfCheckedButtons = 0;
 	private JFrame frame;
-	Link L1 = new Link();
-	Link L2 = new Link();
-	Link L3 = new Link();
+	static Link L1 = new Link();
+	static Link L2 = new Link();
+	static Link L3 = new Link();
 	JRadioButton TimeRadioButton = new JRadioButton("");
 	JRadioButton DeviceRadioButton = new JRadioButton("");
 	JRadioButton LocationRadioButton = new JRadioButton("");
@@ -99,7 +99,13 @@ public class GUI extends JFrame {
 	private JTextField Signal1;
 	private JTextField Signal2;
 	private JTextField Signal3;
+	static JButton ClearButton = new JButton("Clear Data");
+	static JTextArea textArea = new JTextArea();
+	static JButton SaveCSV = new JButton("Save ---> CSV");
+	static JButton SaveKMLButton = new JButton("Save ---> KML");
+	static JButton EnterSQLButton = new JButton("Enter SQL");
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -137,17 +143,17 @@ public class GUI extends JFrame {
 		boolean flag = false;
 		if(NumOfMacstxt.getText().equals("") || AlgoAlttxt.getText().equals(""))
 			JOptionPane.showMessageDialog(null, "Invalid Input");
-		
+
 		}
 
-*/
+	 */
 	public void copy(Link l1 ,Link l2 ){
 		for(int i=0; i<l1.DataBase.size(); i++)
 			l2.temp.add(new WiFi(l1.DataBase.get(i)));
 		l2.DataBase = l2.temp;
 		l2.temp = new ArrayList<>();
 	}
-	
+
 	private void setEnabled(){
 		if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected())
 			LocationRadioButton.setEnabled(false);
@@ -197,18 +203,17 @@ public class GUI extends JFrame {
 		frame.setBounds(0, 454, 1015, 961);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		//frame.paint(null);
-
-		JTextArea textArea = new JTextArea();
-		JButton SaveCSV = new JButton("Save ---> CSV");
+		frame.setLocationRelativeTo(null); 
+		
+		
+		
+		
 		SaveCSV.setBackground(new Color(211, 211, 211));
-		JButton ClearButton = new JButton("Clear Data");
 		ClearButton.setBackground(new Color(211, 211, 211));
 		JButton AddDirButton = new JButton("Add Dir");
 		AddDirButton.setBackground(new Color(211, 211, 211));
 		JButton CSVButton = new JButton("Add CSV");
 		CSVButton.setBackground(new Color(211, 211, 211));
-		JButton SaveKMLButton = new JButton("Save ---> KML");
 		SaveKMLButton.setBackground(new Color(211, 211, 211));
 		JButton TimeMinEnterButton = new JButton("Enter MIN");
 		TimeMinEnterButton.setBackground(new Color(211, 211, 211));
@@ -235,7 +240,7 @@ public class GUI extends JFrame {
 		Algo2EnterButton.setBackground(new Color(211, 211, 211));
 		JButton Algo2SampleEnterButton = new JButton("Enter");
 		Algo2SampleEnterButton.setBackground(new Color(211, 211, 211));
-		
+
 
 
 		// Save CSV Button
@@ -261,6 +266,7 @@ public class GUI extends JFrame {
 				ClearButton.setEnabled(false);
 				AddDirButton.setEnabled(true);
 				SaveCSV.setEnabled(false);
+				EnterSQLButton.setEnabled(true);
 				textArea.setText(null);
 
 			}
@@ -520,7 +526,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				LocationGetMinAlt = AltMINtxt.getText();
 				LocationGetMaxAlt = AltMAXtxt.getText();
-				 loc = new Location_Filter(LocationGetMinLat, LocationGetMinLon, LocationGetMinAlt, LocationGetMaxLat, LocationGetMaxLon, LocationGetMaxAlt);
+				loc = new Location_Filter(LocationGetMinLat, LocationGetMinLon, LocationGetMinAlt, LocationGetMaxLat, LocationGetMaxLon, LocationGetMaxAlt);
 			}
 		});
 		AltEnterButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -546,14 +552,14 @@ public class GUI extends JFrame {
 				Not_Filter not2;
 				And_Filter and = null;
 				Or_Filter or = null;
-				
+
 				if(open != null){
 					w.SortbyFilter(L2.DataBase, open, "FilteredCSV");
 					System.out.println("saveeeee");
 					open = null;
 					flag = false;
 				}
-				
+
 				if(AndCheckBox.isSelected() && flag){ // and selected 
 					if(TimeRadioButton.isSelected() && DeviceRadioButton.isSelected()){ // if time & device selected
 						if(TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){ // not selected both
@@ -562,7 +568,6 @@ public class GUI extends JFrame {
 							and = new And_Filter(not1, not2);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
 							textArea.append("Filter: (!(Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))&&(!(Device("+DeviceGetInput+"))))"+"\n") ;
-
 						}
 						if(TimeNOTCheckBox.isSelected() && !DeviceNOTCheckBox.isSelected()){ 
 							not1 = new Not_Filter(time);
@@ -572,7 +577,7 @@ public class GUI extends JFrame {
 
 						}
 
-							if(!TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
+						if(!TimeNOTCheckBox.isSelected() && DeviceNOTCheckBox.isSelected()){
 							not1 = new Not_Filter(id);
 							and = new And_Filter(not1, time);
 							w.SortbyFilter(L2.DataBase, and, "FilteredCSV");
@@ -633,10 +638,10 @@ public class GUI extends JFrame {
 						}
 
 					}
-				
+
 					save = and;
 
-				
+
 				}
 
 
@@ -720,8 +725,8 @@ public class GUI extends JFrame {
 
 					}
 
-				save = or;
-				
+					save = or;
+
 				}
 
 				if(TimeRadioButton.isSelected() && !LocationRadioButton.isSelected() && !DeviceRadioButton.isSelected() && flag){
@@ -737,7 +742,7 @@ public class GUI extends JFrame {
 						save = time;
 						textArea.append("Filter: (Time(" +TimeGetMin+"<Data<"+TimeGetMax+"))"+"\n");
 					}
-					}
+				}
 
 				if(DeviceRadioButton.isSelected() && !TimeRadioButton.isSelected() && !LocationRadioButton.isSelected() && flag){
 					if(DeviceNOTCheckBox.isSelected()){
@@ -747,14 +752,13 @@ public class GUI extends JFrame {
 						textArea.append("Filter: (!(Device("+DeviceGetInput+")))"+"\n") ;
 
 					}
-
-					else
+					else{
 						w.SortbyFilter(L2.DataBase, id, "FilteredCSV");
 						save = id;
 						textArea.append("Filter: (Device("+DeviceGetInput+"))"+"\n") ;
 
+					}
 				}
-
 				if(LocationRadioButton.isSelected() && !TimeRadioButton.isSelected() && !DeviceRadioButton.isSelected() && flag){
 					if(LocationNOTCheckBox.isSelected()){
 						not1 = new Not_Filter(loc);
@@ -764,11 +768,11 @@ public class GUI extends JFrame {
 
 					}
 
-					else
+					else{
 						w.SortbyFilter(L2.DataBase, loc, "FilteredCSV");
-						save = loc;
-						textArea.append("Filter: (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))"+"\n") ;
-
+					save = loc;
+					textArea.append("Filter: (Location("+LocationGetMinLat+"<Data<"+LocationGetMaxLat+"&"+LocationGetMinLon+"<data<"+LocationGetMaxLon+"&"+LocationGetMinAlt+"<data<"+LocationGetMaxAlt+"))"+"\n") ;
+					}
 				}
 
 
@@ -780,16 +784,16 @@ public class GUI extends JFrame {
 					watchThread.start();
 				} catch (Exception e1) {
 					e1.printStackTrace();
-	}
-				
+				}
+
 			}
-			
-		
+
+
 		});
 		StartFiltrationButton.setBounds(191, 737, 115, 44);
 		frame.getContentPane().add(StartFiltrationButton);
-		
-		
+
+
 		//SaveFilterButton
 		SaveFilterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -804,7 +808,7 @@ public class GUI extends JFrame {
 		SaveFilterButton.setBackground(new Color(211, 211, 211));
 		frame.getContentPane().add(SaveFilterButton);
 
-		
+
 		//OpenFilterButton
 		OpenFilterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -817,7 +821,7 @@ public class GUI extends JFrame {
 		OpenFilterButton.setBounds(318, 789, 115, 44);
 		frame.getContentPane().add(OpenFilterButton);
 
-		
+
 		//CancelFilterButton
 		CancelFilterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -885,14 +889,14 @@ public class GUI extends JFrame {
 		ORCheckBox.setBounds(247, 703, 59, 25);
 		frame.getContentPane().add(ORCheckBox);
 
-		
+
 		//MacAddresButton
 		MacAddressButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					if(AlgoAlttxt.getText().equals("MAC Addredd") || NumOfMacstxt.getText().equals("Num. of Macs"))
-						JOptionPane.showMessageDialog(null, "Invald Input !");
-					else{
-				    copy(L1, L3);
+				if(AlgoAlttxt.getText().equals("MAC Addredd") || NumOfMacstxt.getText().equals("Num. of Macs"))
+					JOptionPane.showMessageDialog(null, "Invald Input !");
+				else{
+					copy(L1, L3);
 					Algo1GetMac = Algo1txt.getText();
 					Algo1getnum = Integer.parseInt(NumOfMacstxt.getText());
 					String[] str = L3.Algo1(Algo1GetMac, Algo1getnum);
@@ -900,43 +904,43 @@ public class GUI extends JFrame {
 					AlgoLontxt.setText(str[1]);
 					AlgoAlttxt.setText(str[2]);
 					L3 = new Link();
-					}
+				}
 			}
 		});
 
 		MacAddressButton.setEnabled(true);
 		MacAddressButton.setBounds(851, 310, 103, 30);
 		frame.getContentPane().add(MacAddressButton);
-		
-		
+
+
 		//Algo2EnterButton
 		Algo2EnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			copy(L1, L3);
-			String[] str = {"","","","","",""};
-			Algo2GetMac1 = Mac1txt.getText();
-			Algo2GetMac2 = Mac2txt.getText();
-			Algo2GetMac3 = Mac3txt.getText();
-			Algo2GetSignal1 = Signal1.getText();
-			Algo2GetSignal2 = Signal2.getText();
-			Algo2GetSignal3 = Signal3.getText();
-			str[0] = Algo2GetMac1;
-			str[1] = Algo2GetSignal1;
-			str[2] = Algo2GetMac2;
-			str[3] = Algo2GetSignal2;
-			str[4] = Algo2GetMac3;
-			str[5] = Algo2GetSignal3;
-			String[] str2 = L3.Algo2Pairs(str);
-			AlgoLattxt.setText(str2[0]);
-			AlgoLontxt.setText(str2[1]);
-			AlgoAlttxt.setText(str2[2]);
-			L3 = new Link();
+				copy(L1, L3);
+				String[] str = {"","","","","",""};
+				Algo2GetMac1 = Mac1txt.getText();
+				Algo2GetMac2 = Mac2txt.getText();
+				Algo2GetMac3 = Mac3txt.getText();
+				Algo2GetSignal1 = Signal1.getText();
+				Algo2GetSignal2 = Signal2.getText();
+				Algo2GetSignal3 = Signal3.getText();
+				str[0] = Algo2GetMac1;
+				str[1] = Algo2GetSignal1;
+				str[2] = Algo2GetMac2;
+				str[3] = Algo2GetSignal2;
+				str[4] = Algo2GetMac3;
+				str[5] = Algo2GetSignal3;
+				String[] str2 = L3.Algo2Pairs(str);
+				AlgoLattxt.setText(str2[0]);
+				AlgoLontxt.setText(str2[1]);
+				AlgoAlttxt.setText(str2[2]);
+				L3 = new Link();
 			}
 		});
 		Algo2EnterButton.setEnabled(true);
 		Algo2EnterButton.setBounds(851, 563, 103, 30);
 		frame.getContentPane().add(Algo2EnterButton);
-		
+
 		//Algo2SampleEnterButton
 		Algo2SampleEnterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -950,9 +954,25 @@ public class GUI extends JFrame {
 			}
 		});
 
+		
 		Algo2SampleEnterButton.setEnabled(true);
 		Algo2SampleEnterButton.setBounds(715, 414, 103, 31);
 		frame.getContentPane().add(Algo2SampleEnterButton);
+
+		//EnterSQLButton
+		EnterSQLButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Login s = new Login();
+				s.setVisible(true);
+				
+			}
+		});
+		EnterSQLButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+		EnterSQLButton.setBackground(new Color(211, 211, 211));
+		EnterSQLButton.setBounds(12, 541, 128, 44);
+		frame.getContentPane().add(EnterSQLButton);
+
+		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 0, 0));
@@ -1030,7 +1050,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(TimeRadioButton.isSelected())
-				TimeMINtxt.setText("");
+					TimeMINtxt.setText("");
 
 
 			}
@@ -1058,7 +1078,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(TimeRadioButton.isSelected())
-				TimeMAXtxt.setText("");
+					TimeMAXtxt.setText("");
 			}
 		});
 		TimeMAXtxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1082,7 +1102,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(DeviceRadioButton.isSelected())
-				Devicetxt.setText("");
+					Devicetxt.setText("");
 			}
 		});
 		Devicetxt.setText("Name");
@@ -1092,14 +1112,14 @@ public class GUI extends JFrame {
 		Devicetxt.setBounds(232, 436, 91, 25);
 		frame.getContentPane().add(Devicetxt);
 
-		
-		
+
+
 		LatMINtxt = new JTextField();
 		LatMINtxt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				LatMINtxt.setText("");
+					LatMINtxt.setText("");
 			}
 		});
 		LatMINtxt.setText("XX.XXX");
@@ -1128,7 +1148,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				LatMAXtxt.setText("");
+					LatMAXtxt.setText("");
 			}
 		});
 		LatMAXtxt.setText("YY.YYY");
@@ -1148,7 +1168,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				LonMINtxt.setText("");
+					LonMINtxt.setText("");
 			}
 		});
 		LonMINtxt.setText("XX.XXX");
@@ -1172,7 +1192,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				LonMAXtxt.setText("");
+					LonMAXtxt.setText("");
 			}
 		});
 		LonMAXtxt.setText("YY.YYY");
@@ -1187,7 +1207,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				AltMINtxt.setText("");
+					AltMINtxt.setText("");
 			}
 		});
 		AltMINtxt.setText("XX.XXX");
@@ -1211,7 +1231,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(LocationRadioButton.isSelected())
-				AltMAXtxt.setText("");
+					AltMAXtxt.setText("");
 			}
 		});
 		AltMAXtxt.setText("YY.YYY");
@@ -1220,32 +1240,32 @@ public class GUI extends JFrame {
 		AltMAXtxt.setColumns(10);
 		AltMAXtxt.setBounds(489, 584, 65, 25);
 		frame.getContentPane().add(AltMAXtxt);
-		
-		
+
+
 		Algo1txt = new JTextField();
 		Algo1txt.setHorizontalAlignment(SwingConstants.CENTER);
 		Algo1txt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 				Algo1txt.setText("");
 			}
 		});
-		
+
 		Algo1txt.setText("MAC Address");
 		Algo1txt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		Algo1txt.setEnabled(true);
 		Algo1txt.setColumns(10);
 		Algo1txt.setBounds(600, 310, 131, 30);
 		frame.getContentPane().add(Algo1txt);
-		
-		
+
+
 		AlgoLattxt = new JTextField();
 		AlgoLattxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		AlgoLattxt.setBounds(794, 694, 181, 41);
 		frame.getContentPane().add(AlgoLattxt);
 		AlgoLattxt.setColumns(10);
-		
+
 		JSeparator separator_5 = new JSeparator();
 		separator_5.setOrientation(SwingConstants.VERTICAL);
 		separator_5.setForeground(Color.WHITE);
@@ -1259,34 +1279,34 @@ public class GUI extends JFrame {
 		lblAlt.setBounds(448, 557, 39, 16);
 		frame.getContentPane().add(lblAlt);
 
-		
-		
+
+
 		JLabel lblAlgorithms = new JLabel("Algorithms");
 		lblAlgorithms.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAlgorithms.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblAlgorithms.setBounds(714, 177, 115, 64);
 		frame.getContentPane().add(lblAlgorithms);
-		
+
 		JSeparator separator_6 = new JSeparator();
 		separator_6.setForeground(new Color(0, 0, 0));
 		separator_6.setBounds(592, 231, 393, 2);
 		frame.getContentPane().add(separator_6);
-		
+
 		JLabel lblAlgorithm = new JLabel("Algorithm 1");
 		lblAlgorithm.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblAlgorithm.setBounds(600, 256, 96, 44);
 		frame.getContentPane().add(lblAlgorithm);
-		
+
 		JLabel lblCalculatedPoint = new JLabel("Calculated Point :");
 		lblCalculatedPoint.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCalculatedPoint.setBounds(600, 692, 131, 44);
 		frame.getContentPane().add(lblCalculatedPoint);
-		
+
 		JSeparator separator_7 = new JSeparator();
 		separator_7.setForeground(Color.BLACK);
 		separator_7.setBounds(600, 356, 385, 13);
 		frame.getContentPane().add(separator_7);
-		
+
 		NumOfMacstxt = new JTextField();
 		NumOfMacstxt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1298,40 +1318,40 @@ public class GUI extends JFrame {
 		NumOfMacstxt.setBounds(748, 310, 91, 30);
 		frame.getContentPane().add(NumOfMacstxt);
 		NumOfMacstxt.setColumns(10);
-		
+
 		JLabel label = new JLabel("Alt :");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Tahoma", Font.BOLD, 15));
 		label.setBounds(743, 822, 39, 16);
 		frame.getContentPane().add(label);
-		
+
 		JLabel label_1 = new JLabel("Lat :");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		label_1.setBounds(743, 706, 39, 16);
 		frame.getContentPane().add(label_1);
-		
+
 		JLabel label_2 = new JLabel("Lon :");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		label_2.setBounds(743, 765, 39, 16);
 		frame.getContentPane().add(label_2);
-		
+
 		AlgoLontxt = new JTextField();
 		AlgoLontxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		AlgoLontxt.setColumns(10);
 		AlgoLontxt.setBounds(794, 753, 181, 41);
 		frame.getContentPane().add(AlgoLontxt);
-		
+
 		AlgoAlttxt = new JTextField();
 		AlgoAlttxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		AlgoAlttxt.setColumns(10);
 		AlgoAlttxt.setBounds(794, 810, 181, 41);
 		frame.getContentPane().add(AlgoAlttxt);
-		
+
 		JLabel lblAlgorithm_1 = new JLabel("Algorithm 2");
 		lblAlgorithm_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblAlgorithm_1.setBounds(600, 369, 96, 44);
 		frame.getContentPane().add(lblAlgorithm_1);
-		
+
 		Algo2Sampletxt = new JTextField();
 		Algo2Sampletxt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1344,19 +1364,19 @@ public class GUI extends JFrame {
 		Algo2Sampletxt.setBounds(600, 415, 103, 30);
 		frame.getContentPane().add(Algo2Sampletxt);
 		Algo2Sampletxt.setColumns(10);
-		
-		
-		
+
+
+
 		JSeparator separator_8 = new JSeparator();
 		separator_8.setForeground(Color.BLACK);
 		separator_8.setBounds(600, 470, 385, 13);
 		frame.getContentPane().add(separator_8);
-		
+
 		JLabel label_3 = new JLabel("Algorithm 2");
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 		label_3.setBounds(600, 474, 96, 44);
 		frame.getContentPane().add(label_3);
-		
+
 		Mac1txt = new JTextField();
 		Mac1txt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1371,7 +1391,7 @@ public class GUI extends JFrame {
 		Mac1txt.setColumns(10);
 		Mac1txt.setBounds(600, 518, 131, 30);
 		frame.getContentPane().add(Mac1txt);
-		
+
 		Mac2txt = new JTextField();
 		Mac2txt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1386,7 +1406,7 @@ public class GUI extends JFrame {
 		Mac2txt.setColumns(10);
 		Mac2txt.setBounds(600, 563, 131, 30);
 		frame.getContentPane().add(Mac2txt);
-		
+
 		Mac3txt = new JTextField();
 		Mac3txt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1401,7 +1421,7 @@ public class GUI extends JFrame {
 		Mac3txt.setColumns(10);
 		Mac3txt.setBounds(600, 606, 131, 30);
 		frame.getContentPane().add(Mac3txt);
-		
+
 		Signal1 = new JTextField();
 		Signal1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1415,7 +1435,7 @@ public class GUI extends JFrame {
 		Signal1.setBounds(748, 518, 71, 30);
 		frame.getContentPane().add(Signal1);
 		Signal1.setColumns(10);
-		
+
 		Signal2 = new JTextField();
 		Signal2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1429,7 +1449,7 @@ public class GUI extends JFrame {
 		Signal2.setColumns(10);
 		Signal2.setBounds(747, 563, 71, 30);
 		frame.getContentPane().add(Signal2);
-		
+
 		Signal3 = new JTextField();
 		Signal3.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1443,30 +1463,31 @@ public class GUI extends JFrame {
 		Signal3.setColumns(10);
 		Signal3.setBounds(748, 606, 71, 30);
 		frame.getContentPane().add(Signal3);
-		
-		
-		
-	
-	    TitledBorder titled = new TitledBorder("LOG");
 
-	    textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+
+
+		TitledBorder titled = new TitledBorder("LOG");
+
+		textArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textArea.setEditable(false);
 		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		textArea.setBounds(30, 51, 938, 117);
 		textArea.setBorder(titled);
-		
-		 JScrollPane scroll = new JScrollPane (textArea);
-		 scroll.setBounds(12, 11, 973, 169);
-		 scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
+
+		JScrollPane scroll = new JScrollPane (textArea);
+		scroll.setBounds(12, 11, 973, 169);
+		scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 		frame.getContentPane().add(scroll);
 		
-		
-		
-		
-		
 	
-		
-		
+
+
+
+
+
+
+
 
 
 
