@@ -25,46 +25,19 @@ import java.text.SimpleDateFormat;
 
 public class mySQL {
 
-	private static String _ip = "5.29.193.52";
-	private static String _url = "jdbc:mysql://5.29.193.52:3306/oop_course_ariel";
-	private static String _user = "oop1";
-	private static String _password = "Lambda1();";
-	private static Connection _con = null;
-	private static String _tableName="";
 
-	public static void main(String[] args) {
-		ArrayList<WiFi> _line1 =	test_101("5.29.193.52", "jdbc:mysql://"+"5.29.193.52"+":3306/oop_course_ariel","oop1","Lambda1();","ex4_db");
-		//Filter filter = null;
-//		filter = new FilterGPS(34, 31, 37, 33);
-//		List<Line_Algo2> filteredList = filterList.filterList1(_line1,filter);
-//		//Sorting the filteredList by signal (WiFi is implementing Comparable)
-//		weightedCenterPoint.Line_Algo2.toCsv(filteredList,"C:/Users/dorle/Desktop");
-		
-//		filter = new FilterTime("2017-12-03 08:37:10", "2017-12-03 08:37:18");
-//		List<Line_Algo2> filteredList = filterList.filterList1(_line1,filter);
-//		//Sorting the filteredList by signal (WiFi is implementing Comparable)
-//		weightedCenterPoint.Line_Algo2.toCsv(filteredList,"C:/Users/dorle/Desktop");
-		
-		
-		
-				for (WiFi wifi : _line1) {	
-					System.out.println(wifi.toString());
-	}
-		
-	}
-
-
-	public static ArrayList<WiFi> test_101(String _ip,String _url,String _user, String _password, String _tableName) {
+	public ArrayList<WiFi> ReadTable(Connecting det) {
 		Statement st = null;
 		ResultSet rs = null;
 		Connection _con = null;
-		int max_id = -1;
+		
+		
 		ArrayList<WiFi> List = new ArrayList<WiFi>();
 		try {  
-			_con = DriverManager.getConnection(_url, _user, _password);
+			_con = DriverManager.getConnection(det.getUrl(), det.getUser(), det.getPass());
 			st = _con.createStatement();
 
-			PreparedStatement pst = _con.prepareStatement("SELECT * FROM "+_tableName);
+			PreparedStatement pst = _con.prepareStatement("SELECT * FROM "+det.getTableName());
 			rs = pst.executeQuery();
 			ResultSetMetaData rsmd= rs.getMetaData();
 			
@@ -102,6 +75,11 @@ public class mySQL {
 				lgr.log(Level.WARNING, ex.getMessage(), ex);
 			}
 		}
+		
+		for(WiFi s : List)
+			System.out.println(s.toString());
+		
+		
 		return List;
 	}
 }

@@ -50,7 +50,7 @@ public class Link {
 
 
 	}
-	
+
 	public String[] Algo1(String mac , int num){
 		Calculating cal = new Calculating();
 		WiFi wifi = cal.MacCompare(DataBase, num, mac);
@@ -67,12 +67,12 @@ public class Link {
 		String[] res = wifi.getPoint().toString().split(",");
 		return res;
 	}
-	
+
 	public String[] Algo2Pairs(String[] str){
 		Point3D point = new Point3D(0, 0, 0);
 		WiFi wifi = new WiFi(null,null,point,0);
 		WiFiSub sub1 , sub2 , sub3;
-		
+
 		sub1 = new WiFiSub(null, str[0], 0, Integer.parseInt(str[1]));
 		sub2 = new WiFiSub(null, str[2], 0, Integer.parseInt(str[3]));
 		sub3 = new WiFiSub(null, str[4], 0, Integer.parseInt(str[5]));
@@ -84,5 +84,5 @@ public class Link {
 		String[] res = wifi.getPoint().toString().split(",");
 		return res;
 	}
-	
+
 }
