@@ -2,15 +2,14 @@ package SQL;
 
 public class Connecting {
 
-	private String ip , port , url , user , pass , Con , tableName;
+	private String ip , port , url , user , pass , tableName;
 	
-	public Connecting(String ip , String port , String url , String user , String pass , String con , String tablename){
+	public Connecting(String ip , String port , String url , String user , String pass , String tablename){
 		this.ip = ip;
 		this.port = port;
 		this.url = "jdbc:mysql://" + ip + ":" + port + "/" + tablename + "?useSSL=false";
 		this.user = user;
 		this.pass = pass;
-		this.Con = con;
 		this.tableName = tablename;
 		
 	}
@@ -53,14 +52,6 @@ public class Connecting {
 
 	public void setPass(String pass) {
 		this.pass = pass;
-	}
-
-	public String getCon() {
-		return Con;
-	}
-
-	public void setCon(String con) {
-		Con = con;
 	}
 
 	public String getTableName() {
