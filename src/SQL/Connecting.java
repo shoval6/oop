@@ -1,10 +1,10 @@
 package SQL;
 
-public class Connection {
+public class Connecting {
 
 	private String ip , port , url , user , pass , Con , tableName;
 	
-	public Connection(String ip , String port , String url , String user , String pass , String con , String tablename){
+	public Connecting(String ip , String port , String url , String user , String pass , String con , String tablename){
 		this.ip = ip;
 		this.port = port;
 		this.url = "jdbc:mysql://" + ip + ":" + port + "/" + tablename + "?useSSL=false";
