@@ -2,16 +2,16 @@ package SQL;
 
 public class Connecting {
 
-	private String ip , port , url , user , pass , tableName;
+	private String ip , port , url , user , pass , tableName , dbName;
 	
-	public Connecting(String ip , String port , String url , String user , String pass , String tablename){
+	public Connecting(String ip , String port , String user , String pass , String tablename , String dbName){
 		this.ip = ip;
 		this.port = port;
-		this.url = "jdbc:mysql://" + ip + ":" + port + "/" + tablename + "?useSSL=false";
+		this.url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
 		this.user = user;
 		this.pass = pass;
 		this.tableName = tablename;
-		
+		this.dbName = dbName;
 	}
 
 	public String getIp() {
